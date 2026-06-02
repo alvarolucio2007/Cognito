@@ -7,16 +7,11 @@ import java.sql.SQLException;
 public class databaseConn {
 
   // JDBC URL, username, and password of PostgreSQL server
-  private final String url = "jdbc:postgresql://localhost/mydb";
-  private final String user = "postgres";
-  private final String password = "root";
+  private static final String url = "jdbc:postgresql://localhost/mydb";
+  private static final String user = "Cognito";
+  private static final String password = "Veritas";
 
-  /**
-   * Connect to the PostgreSQL database
-   *
-   * @return a Connection object
-   */
-  public Connection connect() {
+  public static Connection connect() {
     Connection conn = null;
     try {
       // Connect to PostgreSQL database
@@ -32,13 +27,6 @@ public class databaseConn {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
-
     return conn;
-  }
-
-  public static void main(String[] args) {
-    databaseConn app = new databaseConn();
-    // Connect to the PostgreSQL database
-    app.connect();
   }
 }
