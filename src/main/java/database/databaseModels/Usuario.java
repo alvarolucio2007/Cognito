@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import database.databaseConn;
+import database.conn.databaseConn;
 
 public class Usuario {
   private Long pkIdUsuario;
