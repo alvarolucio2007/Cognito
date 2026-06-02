@@ -1,6 +1,7 @@
 package database.databaseModels;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -62,13 +63,23 @@ public class Usuario {
     this.usuarioDataNascimento = usuarioDataNascimento;
   }
 
-  public void criar(Usuario usuario) {
-    String query = ""; // TODO: Receber e inserir aqui o query
+  public boolean criar(Usuario usuario) {
+    String query = "INSERT INTO usuario (usuario_nome ,usuario_email,usuario_senha,usuario_data_nascimento) VALUES";
     try (Connection conn = databaseConn.connect()) {
-
+      PreparedStatement stmt = conn.prepareStatement(query);
+      stmt.setString(1, getUsuarioNome());
+      stmt.setString(2, getUsuarioEmail());
+      stmt.setString(3, getUsuarioSenha());
+      stmt.setTimestamp(4, getUsuarioDataNascimento());
+      int linhasAfetadas = stmt.executeUpdate();
+      if (linhasAfetadas > 0) {
+        return true;
+      }
     } catch (SQLException e) {
       System.out.println("Erro no banco ou fechamento da conexão: " + e.getMessage());
+      return false;
     }
+    return false;
 
   }
 
