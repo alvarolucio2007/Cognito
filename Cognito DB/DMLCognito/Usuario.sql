@@ -1,0 +1,11 @@
+INSERT INTO usuario (usuario_nome ,usuario_email,usuario_senha,usuario_data_nascimento) VALUES
+('João Silva', 'joao.silva@email.com', 'senha123', '1995-03-15 00:00:00'),
+('Maria Santos', 'maria.santos@email.com', 'senha456', '1998-07-22 00:00:00'),
+('Carlos Oliveira', 'carlos.oliveira@email.com', 'senha789', '1992-11-05 00:00:00'),
+('Ana Costa', 'ana.costa@email.com', 'senha012', '2000-01-30 00:00:00'),
+('Pedro Gomes', 'pedro.gomes@email.com', 'senha345', '1997-05-18 00:00:00'),
+('Juliana Ferreira', 'juliana.ferreira@email.com', 'senha678', '1999-09-25 00:00:00'),
+('Lucas Martins', 'lucas.martins@email.com', 'senha901', '1996-02-14 00:00:00'),
+('Beatriz Alves', 'beatriz.alves@email.com', 'senha234', '2001-06-08 00:00:00'),
+('Roberto Dias', 'roberto.dias@email.com', 'senha567', '1993-12-20 00:00:00'),
+('Fernanda Rocha', 'fernanda.rocha@email.com', 'senha890', '1998-04-10 00:00:00');
