@@ -7,7 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 
-import java.awt.*;
+import javafx.scene.control.Button; // alterei essa linha pq tava dando problema na UI, antes era: import java.awt.Button;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
