@@ -64,13 +64,13 @@ public class Usuario {
   }
 
   public boolean criar(Usuario usuario) {
-    String query = "INSERT INTO usuario (usuario_nome ,usuario_email,usuario_senha,usuario_data_nascimento) VALUES";
+    String query = "INSERT INTO usuario (usuario_nome ,usuario_email,usuario_senha,usuario_data_nascimento) VALUES (?, ?, ?, ?)";
     try (Connection conn = databaseConn.connect()) {
       PreparedStatement stmt = conn.prepareStatement(query);
-      stmt.setString(1, getUsuarioNome());
-      stmt.setString(2, getUsuarioEmail());
-      stmt.setString(3, getUsuarioSenha());
-      stmt.setTimestamp(4, getUsuarioDataNascimento());
+      stmt.setString(1, usuario.getUsuarioNome());
+      stmt.setString(2, usuario.getUsuarioEmail());
+      stmt.setString(3, usuario.getUsuarioSenha());
+      stmt.setTimestamp(4, usuario.getUsuarioDataNascimento());
       int linhasAfetadas = stmt.executeUpdate();
       if (linhasAfetadas > 0) {
         return true;
