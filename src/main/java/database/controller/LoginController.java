@@ -32,7 +32,7 @@ public class LoginController {
       }
       return senhaDigitada.equals(senhaRecebida);
     } catch (SQLException e) {
-      // TODO: Colocar algo aqui, nao sei direito, vou fazer depois...
+      // TODO: Colocar algo aqui, provavelvemente em um botão ou algo assim...
       return false;
     }
 
