@@ -2,6 +2,7 @@ package database.databaseModels;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -80,7 +81,15 @@ public class Usuario {
       return false;
     }
     return false;
-
   }
 
+  public String getSenhaEmail(String email) throws SQLException {
+    String query = "SELECT usuario_senha FROM usuario WHERE usuario_email = ?";
+    try (Connection conn = databaseConn.connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+      stmt.setString(1, email);
+      ResultSet rs = stmt.executeQuery();
+      return rs.next() ? rs.getString("usuario_senha") : null;
+    }
+
+  }
 }
