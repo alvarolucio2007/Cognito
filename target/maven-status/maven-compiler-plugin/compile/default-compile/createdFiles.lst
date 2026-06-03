@@ -1,9 +1,9 @@
-javaFX/HelloFX.class
 database/databaseModels/Atividade.class
-database/databaseModels/TesteNivelamento.class
-database/databaseModels/Aula.class
 database/controller/LoginController.class
 database/controller/UsuarioController.class
 database/databaseModels/Usuario.class
-database/conn/databaseConn.class
 database/databaseModels/Configuracoes.class
+javaFX/HelloFX.class
+database/databaseModels/TesteNivelamento.class
+database/databaseModels/Aula.class
+database/conn/databaseConn.class
