@@ -19,9 +19,9 @@ public class databaseConn {
 
       // Check if connection was successful
       if (conn != null) {
-        System.out.println("Connected to the PostgreSQL server successfully.");
+        System.out.println("Conectado ao banco de dados com sucesso.");
       } else {
-        System.out.println("Failed to make connection!");
+        System.out.println("Conexão falhou.");
       }
 
     } catch (SQLException e) {
