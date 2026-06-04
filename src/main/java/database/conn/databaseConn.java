@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class databaseConn {
 
   // JDBC URL, username, and password of PostgreSQL server
-  private static final String url = "jdbc:postgresql://localhost/mydb";
-  private static final String user = "Cognito";
-  private static final String password = "Veritas";
+  private static final String url = "jdbc:postgresql://localhost:5432/cognitodb";
+  private static final String user = "cognito_user";
+  private static final String password = "Cognito123";
 
   public static Connection connect() {
     Connection conn = null;

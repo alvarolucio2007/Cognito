@@ -3,7 +3,9 @@ database/controller/LoginController.class
 database/controller/UsuarioController.class
 database/databaseModels/Usuario.class
 database/databaseModels/Configuracoes.class
+database/controller/PrincipalController.class
 javaFX/HelloFX.class
+database/controller/TesteNivelamentoController.class
 database/databaseModels/TesteNivelamento.class
 database/databaseModels/Aula.class
 database/conn/databaseConn.class
