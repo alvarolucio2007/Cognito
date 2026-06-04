@@ -4,3 +4,4 @@ INSERT INTO atividade (atividade_pergunta, atividade_resposta, atividade_tipo, F
 ('Ao usar IA para criar um currículo, o que é mais importante conferir?', 'Se todas as informações e experiências profissionais estão corretas e verdadeiras.', 'Múltipla Escolha', 3),
 ('Se você receber um link suspeito no WhatsApp dizendo ser do banco, qual a primeira atitude?', 'Não clicar e verificar a informação em um canal oficial ou usar uma IA de segurança.', 'Múltipla Escolha', 4),
 ('Verdadeiro ou Falso: A IA pode ser usada para praticar respostas de uma entrevista de emprego.', 'Verdadeiro', 'Verdadeiro/Falso', 5);
+-- Inserts de Teste para testar a UI

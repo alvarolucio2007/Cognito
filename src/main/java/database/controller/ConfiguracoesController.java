@@ -21,6 +21,8 @@ public class ConfiguracoesController {
   public void initialize() { // essa bomba (provavelmente) deve prevenir que o usuário coloque texto aonde só
                              // pode ter
                              // número. Eu não confio. Preciso testar.
+
+                             
     sensibilidadeToqueField.textProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.matches("\\d*(\\.\\d*)?")) {
         sensibilidadeToqueField.setText(oldValue);
@@ -46,3 +48,10 @@ public class ConfiguracoesController {
   }
 
 }
+
+
+
+// essa bomba vai funcionar só na UI kkkkkk
+// mas eu pensei na ideia de invés de controlar a sensibilidade(impossível), fizesse um filtro
+// dw toque acidental, um filtro que vesse se o idoso clica duas vezes num espaço de tempo muito curto
+// ou clique muito rápido, fazendo tipo um delay tlgd?

@@ -4,3 +4,4 @@ INSERT INTO configuracao (configuracao_alto_contraste, configuracao_texto_amplia
 (true, true, 1.5, false, 3),
 (false, false, 1.0, true, 4),
 (true, false, 1.1, true, 5);
+-- Inserts de Teste para testar a UI

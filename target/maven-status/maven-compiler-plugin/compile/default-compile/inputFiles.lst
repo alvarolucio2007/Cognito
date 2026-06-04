@@ -11,3 +11,14 @@
 /home/alv/Códigos/Faculdade/Cognito/src/main/java/database/databaseModels/Usuario.java
 /home/alv/Códigos/Faculdade/Cognito/src/main/java/javaFX/HelloFX.java
 /home/alv/Códigos/Faculdade/Cognito/src/main/java/javaFX/Main.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/conn/databaseConn.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/controller/LoginController.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/controller/PrincipalController.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/controller/TesteNivelamentoController.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/controller/UsuarioController.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/databaseModels/Atividade.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/databaseModels/Aula.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/databaseModels/Configuracoes.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/databaseModels/TesteNivelamento.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/databaseModels/Usuario.java
+/home/jeduardo/Documentos/Cognito/src/main/java/javaFX/HelloFX.java

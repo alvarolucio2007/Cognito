@@ -4,13 +4,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="database.controller.PrincipalController"
       style="-fx-background-color: #001EE4; -fx-background-radius: 20;"
       prefWidth="440.0" prefHeight="950.0" spacing="0">
 
-    <!-- Cabeçalho Azul Superior (Header do React) -->
+    <!-- Cabeçalho Azul Superior -->
     <VBox spacing="15.0" style="-fx-background-color: #001EE4;">
         <padding>
             <Insets top="50.0" right="24.0" bottom="15.0" left="24.0"/>
@@ -44,19 +45,22 @@
         </HBox>
     </VBox>
 
-    <!-- Corpo Principal Branco (com todas as seções roláveis do React) -->
+    <!-- Corpo Principal com Fundo Branco -->
     <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 46 46 0 0;">
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
                     style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
             <content>
-                <VBox spacing="35.0" style="-fx-background-color: white; -fx-padding: 20 24 120 24;">
+                <VBox spacing="30.0" style="-fx-background-color: white; -fx-padding: 20 24 120 24;">
                     
-                    <!-- 1. IntroToAIJourneySection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 1 (Introdução ao uso de IA e suas aplicações) -->
+                    <VBox fx:id="cardAula1" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula1" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Introdução ao uso de IA]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula1" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson01.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Introdução ao uso de IA e suas aplicações" 
@@ -68,12 +72,15 @@
                         </HBox>
                     </VBox>
 
-                    <!-- 2. VideoAndActivityHighlightSection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 2 (Atuação prática real com o uso de IA) -->
+                    <VBox fx:id="cardAula2" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula2" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Destaque de Vídeos]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula2" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson02.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Atuação prática real com o uso de IA" 
@@ -85,12 +92,15 @@
                         </HBox>
                     </VBox>
 
-                    <!-- 3. WearableAITechnologySection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 3 (Uso de IA e tecnologia vestível) -->
+                    <VBox fx:id="cardAula3" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula3" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Tecnologia Vestível]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula3" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson03.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Uso de IA e tecnologia vestível" 
@@ -102,12 +112,15 @@
                         </HBox>
                     </VBox>
 
-                    <!-- 4. GenerationAdvantageStrategiesSection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 4 (Como se sobressair sobre as gerações mais jovens) -->
+                    <VBox fx:id="cardAula4" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula4" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Estratégias de Geração]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula4" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson04.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Como se sobressair sobre as gerações mais jovens" 
@@ -119,12 +132,15 @@
                         </HBox>
                     </VBox>
 
-                    <!-- 5. CollaborativeRoboticsLearningSection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 5 (Aprendizado colaborativo com robótica) -->
+                    <VBox fx:id="cardAula5" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula5" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Robótica Colaborativa]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula5" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson05.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Aprendizado colaborativo com robótica" 
@@ -136,12 +152,15 @@
                         </HBox>
                     </VBox>
 
-                    <!-- 6. LaborMarketTrendsSection -->
-                    <VBox spacing="10.0">
-                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                    <!-- Card 6 (Visão geral das novas tecnologias) -->
+                    <VBox fx:id="cardAula6" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
-                                <ImageView fx:id="imgAula6" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
-                                <Label text="[Imagem: Mercado de Trabalho]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                                <ImageView fx:id="imgAula6" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson06.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
                         <Label text="Visão geral das novas tecnologias do mercado de trabalho" 
@@ -157,7 +176,7 @@
             </content>
         </ScrollPane>
 
-        <!-- 7. LessonModeToggleSection (Menu Flutuante do seu protótipo) -->
+        <!-- Menu Flutuante de Seleção (Abas) -->
         <VBox alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false">
             <padding>
                 <Insets bottom="30.0"/>
@@ -165,14 +184,11 @@
             <HBox alignment="CENTER" maxWidth="347.0" prefHeight="50.0"
                   style="-fx-background-color: rgba(107, 107, 107, 0.15); -fx-background-radius: 10; -fx-padding: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);">
                 <children>
-                    <!-- Aba Vídeo Aulas Ativa -->
                     <Button text="Vídeo Aulas" prefWidth="165.0" prefHeight="42.0"
                             style="-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"/>
                     
-                    <!-- Divisor central -->
                     <Region prefWidth="1" prefHeight="32" style="-fx-background-color: #b1b1b1;" />
                     
-                    <!-- Aba Atividades Inativa -->
                     <Button text="Atividades" prefWidth="165.0" prefHeight="42.0"
                             style="-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px; -fx-cursor: hand;"/>
                 </children>

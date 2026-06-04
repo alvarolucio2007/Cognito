@@ -7,6 +7,10 @@ import java.sql.SQLException;
 public class databaseConn {
 
   // JDBC URL, username, and password of PostgreSQL server
+
+  // Eu mudei as credenciais aqui para que apontem pro meu PostgreSQL local (cognitodb)
+  // e usem o usuário (cognito_user) com a senha Cognito123. 
+  // Em outros ambientes, a gente só precisa alterar esses campos conforme as credenciais locais.
   private static final String url = "jdbc:postgresql://localhost:5432/cognitodb";
   private static final String user = "cognito_user";
   private static final String password = "Cognito123";

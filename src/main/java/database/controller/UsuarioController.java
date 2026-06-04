@@ -17,18 +17,12 @@ import java.time.LocalDate;
 
 public class UsuarioController {
 
-  @FXML
-  private TextField nomeField;
-  @FXML
-  private TextField emailField;
-  @FXML
-  private PasswordField senhaField;
-  @FXML
-  private DatePicker dataField;
-  @FXML
-  private Label labelAviso;
-  @FXML
-  private Button botaoCadastro;
+    @FXML private TextField nomeField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField senhaField;
+    @FXML private DatePicker dataField;
+    @FXML private Label labelAviso;
+    @FXML private Button botaoCadastro;
 
     @FXML 
     private void cadastrar() {
@@ -44,11 +38,13 @@ public class UsuarioController {
 
         Timestamp dataConvertida = Timestamp.valueOf(data.atStartOfDay());
 
+        // Eu mantive a implementação de modelo e chamada do banco do Carlos pra criar o usuário
         Usuario novoUsuario = new Usuario(null, nome, email, senha, dataConvertida);
         boolean sucesso = novoUsuario.criar(novoUsuario);
 
         if (sucesso) {
             labelAviso.setText("Usuário cadastrado com sucesso!");
+            // Eu adicionei essa chamada pra que logo após o cadastro, o fluxo redirecione o usuário diretamente para as perguntas de nivelamento.
             irParaTesteNivelamento(email); 
         } else {
             labelAviso.setText("Erro! Não foi possível realizar o cadastro.");
@@ -68,25 +64,17 @@ public class UsuarioController {
             System.out.println("Erro ao carregar teste de nivelamento: " + e.getMessage());
         }
     }
-    return null;
-  }
 
     @FXML
     private void irParaLogin(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
-            // Obtém a Scene de forma segura usando a origem do clique do próprio evento
+            // Eu alterei esse método para usar ActionEvent. Desse jeito, eu busco a origem 
+            // do clique (o próprio link clicado) e mudo o root da Scene de forma dinâmica.
+            // Isso previne quebra se por acaso o botão do cadastro estiver nulo ou não inicializado.
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {
             System.out.println("Erro ao voltar para o login: " + e.getMessage());
         }
     }
-  }
-
-  @FXML
-  private void irParaLogin() throws Exception {
-    Parent root = FXMLLoader.load(
-        getClass().getResource("/fxml/Login.fxml"));
-    botaoCadastro.getScene().setRoot(root);
-  }
 }

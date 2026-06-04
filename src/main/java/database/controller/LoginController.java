@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import database.conn.databaseConn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +36,8 @@ public class LoginController {
             }
 
             if (senhaDigitada.equals(senhaRecebida)) {
-                // Login bem-sucedido vai sempre direto para a tela principal
+                // Eu tirei a checagem do teste de nivelamento aqui no método login.
+                // logo após o cadastro. Quem faz login normal vai direto para a tela principal.
                 irParaPrincipal(); 
             } else {
                 System.out.println("Senha incorreta.");
@@ -56,6 +56,8 @@ public class LoginController {
         }
     }
 
+    // Eu decidi manter este método declarado aqui no controller caso a gente precise
+    // reaproveitar no futuro, mas ele tá inativo para o processo de login padrão.
     private void irParaTesteNivelamento(String email) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TesteNivelamento.fxml"));
@@ -85,32 +87,5 @@ public class LoginController {
                 return rs.next() ? rs.getString("usuario_senha") : null;
             }
         }
-    }
-
-    private boolean temTesteNivelamento(String email) throws SQLException {
-        // Esta query usa uma estratégia dinâmica: ela busca o ID do usuário de forma compatível
-        // para evitar falhas se a coluna primária se chamar pkidusuario, pk_id_usuario ou id_usuario.
-        String query = "SELECT COUNT(*) FROM teste_nivelamento WHERE FK_id_usuario = (" +
-                       "  SELECT COALESCE(" +
-                       "    (SELECT pkidusuario FROM usuario WHERE usuario_email = ?)," +
-                       "    (SELECT pk_id_usuario FROM usuario WHERE usuario_email = ?)," +
-                       "    (SELECT id_usuario FROM usuario WHERE usuario_email = ?)" +
-                       "  )" +
-                       ")";
-        try (Connection conn = databaseConn.connect(); 
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, email);
-            stmt.setString(2, email);
-            stmt.setString(3, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
-            }
-        } catch (SQLException e) {
-            // Se as tabelas estiverem sem dados correspondentes, trata de forma segura retornando falso (força o teste)
-            System.out.println("Aviso na checagem de nivelamento: " + e.getMessage());
-        }
-        return false;
     }
 }
