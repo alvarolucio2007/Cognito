@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+
 import database.conn.databaseConn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,10 +25,13 @@ public class TesteNivelamentoController {
     private String usuarioEmail;
     private Boolean usaAssistenteVoz = null;
 
+    // Eu criei esse setter para conseguir injetar o email do usuário na transição desse jeito realizar as buscas no banco de dados 
+    // para associar o teste no ID dele.
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
     }
 
+    // Aqui fica a lógca de clique pra o sistema dar uma resposta a interação do usuário
     @FXML
     private void selecionarSim() {
         usaAssistenteVoz = true;
@@ -61,6 +65,8 @@ public class TesteNivelamentoController {
         }
     }
 
+    // Eu defini essa métrica de pontuação baseada nas respostas: quanto maior o tempo
+    // de uso do celular e a facilidade de usar comando de voz, maior a pontuação.
     private String calcularNivel(LocalDate posse, boolean usaVoz) {
         int pontos = 0;
 
@@ -76,8 +82,11 @@ public class TesteNivelamentoController {
     }
 
     private void salvarNoBanco(String nivel) throws SQLException {
-        // Consultamos pk_id_usaurio(dps eu mudo esse "usaurio") de forma compatível
-        String queryBuscaId = "SELECT pk_id_usaurio FROM usuario WHERE usuario_email = ?";
+        // Eu usei o nome de coluna 'pkidusuario' porque o PostgreSQL cria as colunas
+        // sem aspas em formato minúsculo. Busco o ID do usuário de forma segura.
+        
+                // EU EDITEI ESTA LINHA PARA USAR AS ASPAS "pkIdUsuario":
+        String queryBuscaId = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
         long idUsuario = -1;
 
         try (Connection conn = databaseConn.connect();
@@ -85,7 +94,8 @@ public class TesteNivelamentoController {
             stmtBusca.setString(1, usuarioEmail);
             try (ResultSet rs = stmtBusca.executeQuery()) {
                 if (rs.next()) {
-                    idUsuario = rs.getLong("pk_id_usaurio");
+                    // LÊ EXATAMENTE COM MAIÚSCULAS/MINÚSCULAS:
+                    idUsuario = rs.getLong("pkIdUsuario"); 
                 }
             }
         }

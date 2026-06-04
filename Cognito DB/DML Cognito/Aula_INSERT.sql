@@ -4,3 +4,4 @@ INSERT INTO aula (aula_titulo, aula_descricao, aula_nivel) VALUES
 ('Atualizando seu Currículo com IA', 'Usando assistentes virtuais para organizar suas experiências profissionais e destacar suas qualidades.', 'Intermediário'),
 ('Segurança e Golpes Digitais', 'Aprenda a usar a IA para identificar mensagens falsas e se proteger de fraudes no WhatsApp.', 'Iniciante'),
 ('Como brilhar em Entrevistas', 'Prática guiada com IA para simular conversas de emprego e ganhar confiança para retornar ao mercado.', 'Intermediário');
+-- Inserts de Teste para testar a UI
