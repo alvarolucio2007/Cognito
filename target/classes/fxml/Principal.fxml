@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="database.controller.PrincipalController"
+      style="-fx-background-color: #001EE4; -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0" spacing="0">
+
+    <!-- Cabeçalho Azul Superior (Header do React) -->
+    <VBox spacing="15.0" style="-fx-background-color: #001EE4;">
+        <padding>
+            <Insets top="50.0" right="24.0" bottom="15.0" left="24.0"/>
+        </padding>
+
+        <!-- Barra do Topo -->
+        <HBox alignment="CENTER" spacing="0">
+            <!-- Perfil -->
+            <Button fx:id="botaoPerfil" onAction="#sair" prefWidth="44.0" prefHeight="44.0"
+                    style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 22; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-cursor: hand;"
+                    text="👤"/>
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Logo Cognito -->
+            <Label text="Cognito" style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold; -fx-font-family: 'Georgia';"/>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Configurações (Gear Icon) -->
+            <Button onAction="#irParaConfiguracoes" prefWidth="44.0" prefHeight="44.0"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 24px; -fx-cursor: hand;"
+                    text="⚙"/>
+        </HBox>
+
+        <!-- Campo de Pesquisa -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0" 
+              style="-fx-background-color: white; -fx-background-radius: 19; -fx-padding: 8 15 8 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 4);">
+            <TextField promptText="Pesquisar Módulos" HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: transparent; -fx-prompt-text-fill: #888888; -fx-text-fill: #333333; -fx-font-size: 15px; -fx-padding: 0;"/>
+            <Label text="🔍" style="-fx-text-fill: #0040ff; -fx-font-size: 16px;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Corpo Principal Branco (com todas as seções roláveis do React) -->
+    <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 46 46 0 0;">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
+            <content>
+                <VBox spacing="35.0" style="-fx-background-color: white; -fx-padding: 20 24 120 24;">
+                    
+                    <!-- 1. IntroToAIJourneySection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula1" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Introdução ao uso de IA]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Introdução ao uso de IA e suas aplicações" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 8/10" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 1/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 2. VideoAndActivityHighlightSection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula2" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Destaque de Vídeos]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Atuação prática real com o uso de IA" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 1/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 0/1" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 3. WearableAITechnologySection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula3" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Tecnologia Vestível]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Uso de IA e tecnologia vestível" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 0/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 4. GenerationAdvantageStrategiesSection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula4" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Estratégias de Geração]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Como se sobressair sobre as gerações mais jovens" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 0/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 5. CollaborativeRoboticsLearningSection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula5" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Robótica Colaborativa]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Aprendizado colaborativo com robótica" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 0/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 6. LaborMarketTrendsSection -->
+                    <VBox spacing="10.0">
+                        <StackPane prefHeight="190.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula6" fitWidth="392.0" fitHeight="190.0" preserveRatio="false"/>
+                                <Label text="[Imagem: Mercado de Trabalho]" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+                            </children>
+                        </StackPane>
+                        <Label text="Visão geral das novas tecnologias do mercado de trabalho" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label text="Aulas assistidas: 0/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <!-- 7. LessonModeToggleSection (Menu Flutuante do seu protótipo) -->
+        <VBox alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false">
+            <padding>
+                <Insets bottom="30.0"/>
+            </padding>
+            <HBox alignment="CENTER" maxWidth="347.0" prefHeight="50.0"
+                  style="-fx-background-color: rgba(107, 107, 107, 0.15); -fx-background-radius: 10; -fx-padding: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);">
+                <children>
+                    <!-- Aba Vídeo Aulas Ativa -->
+                    <Button text="Vídeo Aulas" prefWidth="165.0" prefHeight="42.0"
+                            style="-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"/>
+                    
+                    <!-- Divisor central -->
+                    <Region prefWidth="1" prefHeight="32" style="-fx-background-color: #b1b1b1;" />
+                    
+                    <!-- Aba Atividades Inativa -->
+                    <Button text="Atividades" prefWidth="165.0" prefHeight="42.0"
+                            style="-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px; -fx-cursor: hand;"/>
+                </children>
+            </HBox>
+        </VBox>
+    </StackPane>
+</VBox>

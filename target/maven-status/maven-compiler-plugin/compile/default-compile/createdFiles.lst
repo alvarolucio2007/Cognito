@@ -5,6 +5,7 @@ database/controller/UsuarioController.class
 database/databaseModels/Usuario.class
 database/controller/ConfiguracoesController.class
 database/databaseModels/Configuracoes.class
+database/controller/PrincipalController.class
 javaFX/HelloFX.class
 database/controller/TesteNivelamentoController.class
 database/databaseModels/TesteNivelamento.class

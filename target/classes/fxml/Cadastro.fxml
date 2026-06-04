@@ -141,11 +141,12 @@
 
     <Region minHeight="16"/>
 
-    <!-- Link voltar ao login -->
+<!-- Link voltar ao login -->
     <VBox alignment="CENTER" spacing="2">
         <Label text="Já possui uma conta?"
                style="-fx-font-size: 13px; -fx-text-fill: #444444;"/>
         <Hyperlink text="Faça login aqui"
+                   onAction="#irParaLogin"
                    style="-fx-font-size: 13px;
                           -fx-text-fill: #3F51B5;
                           -fx-border-color: transparent;
