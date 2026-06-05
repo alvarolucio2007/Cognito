@@ -23,7 +23,7 @@ public class ConfiguracoesController {
                              // número. Eu não confio. Preciso testar.
     sensibilidadeToqueField.textProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.matches("\\d*(\\.\\d*)?")) {
-        textoAmpliadoField.setText(oldValue);
+        sensibilidadeToqueField.setText(oldValue);
       }
     });
   }
@@ -40,8 +40,7 @@ public class ConfiguracoesController {
     try {
       return Float.parseFloat(string);
     } catch (NumberFormatException e) {
-      // TODO: Colocar lá no XML... Talvez? Acho que nem precise se eu colocar uma
-      // verificação
+      labelAviso.setText("Por favor, insira um número!");
       return -1;
     }
   }
