@@ -2,6 +2,7 @@
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/AtividadeQuestaoController.java
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/ConfiguracoesController.java
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/LoginController.java
+/home/jeduardo/Documentos/Cognito/src/main/java/database/controller/PerfilController.java
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/PrincipalController.java
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/TesteNivelamentoController.java
 /home/jeduardo/Documentos/Cognito/src/main/java/database/controller/UsuarioController.java

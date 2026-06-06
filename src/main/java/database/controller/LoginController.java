@@ -36,9 +36,8 @@ public class LoginController {
             }
 
             if (senhaDigitada.equals(senhaRecebida)) {
-                // Eu tirei a checagem do teste de nivelamento aqui no método login.
-                // logo após o cadastro. Quem faz login normal vai direto para a tela principal.
-                irParaPrincipal(); 
+                // Eu passo o e-mail digitado para que o método propage o login na próxima tela
+                irParaPrincipal(emailDigitado); 
             } else {
                 System.out.println("Senha incorreta.");
             }
@@ -47,17 +46,22 @@ public class LoginController {
         }
     }
 
-    private void irParaPrincipal() {
+    // Eu atualizei a assinatura deste método para receber a String do e-mail de login,
+    // garantindo que as informações do usuário logado cheguem corretamente à tela principal.
+    private void irParaPrincipal(String email) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Principal.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
+            Parent root = loader.load();
+
+            PrincipalController controller = loader.getController();
+            controller.setUsuarioEmail(email); // Injeta o e-mail na tela principal
+
             botaoLogin.getScene().setRoot(root);
         } catch (Exception e) {
             System.out.println("Erro ao carregar a tela principal: " + e.getMessage());
         }
     }
 
-    // Eu decidi manter este método declarado aqui no controller caso a gente precise
-    // reaproveitar no futuro, mas ele tá inativo para o processo de login padrão.
     private void irParaTesteNivelamento(String email) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TesteNivelamento.fxml"));

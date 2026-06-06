@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="database.controller.PerfilController"
+      style="-fx-background-color: white; -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0" spacing="0">
+
+    <!-- Cabeçalho com Botão Voltar -->
+    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+        <padding>
+            <Insets top="50.0" right="24.0" bottom="15.0" left="24.0"/>
+        </padding>
+        <Button fx:id="botaoVoltar" text="← Voltar" onAction="#voltar"
+                style="-fx-background-color: #000986; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"
+                prefWidth="100.0" prefHeight="38.0"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS"
+                style="-fx-background: white; -fx-background-color: transparent;">
+        <content>
+            <VBox spacing="20.0" style="-fx-background-color: white; -fx-padding: 10 32 40 32;" alignment="TOP_CENTER">
+
+                <!-- Avatar Circular Centralizado -->
+                <StackPane>
+                    <Circle radius="70.0" fill="#E2E8F0" stroke="#000986" strokeWidth="3.0"/>
+                    <Label text="👤" style="-fx-font-size: 64px; -fx-text-fill: #000986;"/>
+                </StackPane>
+                <Label text="Usuário" style="-fx-text-fill: black; -fx-font-size: 22px; -fx-font-weight: bold; -fx-font-family: 'Poppins';"/>
+
+                <!-- Campo: Nome -->
+                <VBox spacing="6.0" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+                    <Label text="Nome" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #444444;"/>
+                    <TextField fx:id="nomeField" promptText="Seu nome"
+                               style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 15px; -fx-padding: 10 14 10 14; -fx-pref-height: 44px;"/>
+                </VBox>
+
+                <!-- Campo: Usuário (Mapeado localmente para o seu design) -->
+                <VBox spacing="6.0" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+                    <Label text="Usuário" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #444444;"/>
+                    <TextField fx:id="usernameField" promptText="Nome de usuário"
+                               style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 15px; -fx-padding: 10 14 10 14; -fx-pref-height: 44px;"/>
+                </VBox>
+
+                <!-- Campo: E-mail -->
+                <VBox spacing="6.0" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+                    <Label text="E-mail" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #444444;"/>
+                    <TextField fx:id="emailField" promptText="Seu e-mail"
+                               style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 15px; -fx-padding: 10 14 10 14; -fx-pref-height: 44px;"/>
+                </VBox>
+
+                <!-- Campo: Senha (com olho funcional do seu protótipo) -->
+                <VBox spacing="6.0" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+                    <Label text="Senha" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #444444;"/>
+                    <StackPane alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308">
+                        <children>
+                            <!-- PasswordField padrão -->
+                            <PasswordField fx:id="senhaField" promptText="Sua Senha" 
+                                            style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-padding: 10 40 10 14; -fx-pref-height: 44px; -fx-font-size: 15px;"/>
+                            
+                            <!-- TextField oculto para quando clicar no olho -->
+                            <TextField fx:id="senhaMostradaField" visible="false" managed="false" promptText="Sua Senha"
+                                       style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-padding: 10 40 10 14; -fx-pref-height: 44px; -fx-font-size: 15px;"/>
+                            
+                            <!-- Botão de Olho -->
+                            <Button fx:id="botaoRevelarSenha" onAction="#toggleSenha" text="👁" 
+                                    style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;">
+                                <padding>
+                                    <Insets right="12.0"/>
+                                </padding>
+                            </Button>
+                        </children>
+                    </StackPane>
+                </VBox>
+
+                <Label fx:id="labelAviso" style="-fx-text-fill: #DC2626; -fx-font-size: 14px;" wrapText="true" textAlignment="CENTER"/>
+
+                <!-- Botão de Salvar -->
+                <HBox alignment="CENTER">
+                    <Button text="Salvar" onAction="#salvar"
+                            style="-fx-background-color: #000dc9; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"
+                            prefWidth="234.0" prefHeight="56.0"/>
+                </HBox>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+</VBox>

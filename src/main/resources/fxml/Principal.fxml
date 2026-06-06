@@ -19,9 +19,9 @@
 
         <!-- Barra do Topo -->
         <HBox alignment="CENTER" spacing="0">
-            <Button fx:id="botaoPerfil" onAction="#sair" prefWidth="44.0" prefHeight="44.0"
-                    style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 22; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-cursor: hand;"
-                    text="👤"/>
+            <Button fx:id="botaoPerfil" onAction="#irParaPerfil" prefWidth="44.0" prefHeight="44.0"
+            style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 22; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-cursor: hand;"
+            text="👤"/>
             <Region HBox.hgrow="ALWAYS" />
             <Label text="Cognito" style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold; -fx-font-family: 'Georgia';"/>
             <Region HBox.hgrow="ALWAYS" />

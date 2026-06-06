@@ -201,4 +201,22 @@ public class PrincipalController {
             System.out.println("Erro ao abrir configurações: " + e.getMessage());
         }
     }
+
+
+    @FXML
+    public void irParaPerfil(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Perfil.fxml"));
+            Parent root = loader.load();
+            
+            // isso aqui pssa as credenciais do usuário logado para a tela de Perfil
+            PerfilController controller = loader.getController();
+            controller.setUsuarioEmail(usuarioEmail);
+
+            ((Node) event.getSource()).getScene().setRoot(root);
+        } catch (Exception e) {
+            System.out.println("Erro ao abrir tela de Perfil: " + e.getMessage());
+        }
+    }
+
 }

@@ -1,12 +1,13 @@
 package database.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import database.conn.databaseConn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -175,14 +176,13 @@ public class AtividadeQuestaoController {
         if (questaoAtual < questoes.size() - 1) {
             carregarQuestao(questaoAtual + 1);
         } else {
-            // Eu gravo o progresso das atividades terminadas no banco
             salvarProgressoAtividade(); 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));
                 Parent root = loader.load();
                 
                 VideoAulaController controller = loader.getController();
-                controller.setUsuarioEmail(usuarioEmail);
+                controller.setUsuarioEmail(usuarioEmail); // Devolve o e-mail ativo
 
                 ((Node) event.getSource()).getScene().setRoot(root);
             } catch (Exception e) {
@@ -246,7 +246,7 @@ public class AtividadeQuestaoController {
             Parent root = loader.load();
             
             VideoAulaController controller = loader.getController();
-            controller.setUsuarioEmail(usuarioEmail);
+            controller.setUsuarioEmail(usuarioEmail); // Devolve o e-mail ativo
 
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {

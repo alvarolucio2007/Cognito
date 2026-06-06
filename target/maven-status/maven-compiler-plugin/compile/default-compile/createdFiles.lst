@@ -4,6 +4,7 @@ database/controller/ConfiguracoesController.class
 database/databaseModels/Configuracoes.class
 database/controller/AtividadeQuestaoController.class
 javaFX/HelloFX.class
+database/controller/PerfilController.class
 database/databaseModels/TesteNivelamento.class
 database/databaseModels/Aula.class
 database/conn/databaseConn.class

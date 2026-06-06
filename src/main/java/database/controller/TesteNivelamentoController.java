@@ -115,9 +115,15 @@ public class TesteNivelamentoController {
         }
     }
 
+    // Eu alterei o método para propagar o e-mail do usuário após o teste de nivelamento
     private void irParaPrincipal() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Principal.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
+            Parent root = loader.load();
+
+            PrincipalController controller = loader.getController();
+            controller.setUsuarioEmail(usuarioEmail); // Propaga o e-mail recebido
+
             botaoContinuar.getScene().setRoot(root);
         } catch (Exception e) {
             labelAviso.setText("Erro ao carregar a tela principal: " + e.getMessage());
