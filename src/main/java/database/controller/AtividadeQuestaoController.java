@@ -3,7 +3,11 @@ package database.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import database.conn.databaseConn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +36,6 @@ public class AtividadeQuestaoController {
     private int questaoAtual = 0;
     private Button alternativaSelecionada = null;
 
-    // ── Estrutura de dados das questões ─────────────────────────────
     private static class Questao {
         String pergunta;
         List<String> alternativas;
@@ -74,44 +77,8 @@ public class AtividadeQuestaoController {
             2,
             "Perfeito! O prompt é o local onde você escreve o que quer da IA, como se fosse mandar uma mensagem para ela.",
             "O prompt é onde você escreve suas perguntas para a IA, como se fosse um chat. Você pode pedir receitas, tirar dúvidas ou pedir sugestões!"
-        ),
-        new Questao(
-            "Se você receber um link suspeito no WhatsApp dizendo ser do banco, qual a primeira atitude?",
-            Arrays.asList(
-                "Clicar no link para ver do que se trata",
-                "Compartilhar com amigos para avisar",
-                "Não clicar e verificar a informação em um canal oficial ou usar uma IA de segurança",
-                "Responder a mensagem pedindo mais informações"
-            ),
-            2,
-            "Muito bem! Nunca clique em links suspeitos. Sempre confirme pelo número oficial do banco ou acesse o site digitando o endereço manualmente.",
-            "Cuidado! Links suspeitos são uma forma comum de golpe. O correto é nunca clicar e sempre verificar ligando para o número oficial do banco."
-        ),
-        new Questao(
-            "Verdadeiro ou Falso: A IA pode ser usada para praticar respostas de uma entrevista de emprego.",
-            Arrays.asList(
-                "Verdadeiro — a IA pode simular perguntas de entrevista",
-                "Falso — a IA não consegue ajudar com entrevistas"
-            ),
-            0,
-            "Verdade! Você pode pedir ao ChatGPT para simular uma entrevista de emprego e praticar suas respostas antes do dia real.",
-            "Na verdade, a IA pode sim ajudar! Você pode pedir ao ChatGPT para fazer perguntas de entrevista e te dar dicas de como melhorar suas respostas."
-        ),
-        new Questao(
-            "Qual o principal benefício de um idoso aprender a usar IA hoje?",
-            Arrays.asList(
-                "Substituir completamente o contato com outras pessoas",
-                "Manter-se conectado com o mundo moderno e ter mais autonomia digital",
-                "Usar o celular apenas para jogos",
-                "Evitar sair de casa para sempre"
-            ),
-            1,
-            "Excelente! Aprender IA ajuda você a se manter conectado, fazer videochamadas, pesquisar sobre saúde e muito mais, com mais independência.",
-            "O maior benefício é a autonomia! Com a IA, você pode pesquisar informações, marcar consultas, falar com familiares e participar do mundo digital com mais facilidade."
         )
     ));
-
-    // ────────────────────────────────────────────────────────────────
 
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
@@ -122,7 +89,6 @@ public class AtividadeQuestaoController {
         carregarQuestao(0);
     }
 
-    // ── Carrega a questão pelo índice ────────────────────────────────
     private void carregarQuestao(int indice) {
         questaoAtual = indice;
         alternativaSelecionada = null;
@@ -148,20 +114,16 @@ public class AtividadeQuestaoController {
         }
     }
 
-    // ── Seleciona alternativa visualmente ───────────────────────────
     private void selecionarAlternativa(Button btn, int indice) {
-        // Reseta todas
         for (Node node : boxAlternativas.getChildren()) {
             if (node instanceof Button) {
                 ((Button) node).setStyle(estiloAlternativaNormal());
             }
         }
-        // Marca a selecionada
         btn.setStyle(estiloAlternativaSelecionada());
         alternativaSelecionada = btn;
     }
 
-    // ── Verifica resposta e exibe feedback ──────────────────────────
     @FXML
     public void responder() {
         if (alternativaSelecionada == null) {
@@ -173,7 +135,6 @@ public class AtividadeQuestaoController {
         int indiceSelecionado = boxAlternativas.getChildren().indexOf(alternativaSelecionada);
         boolean acertou = indiceSelecionado == q.indiceCorreto;
 
-        // Destaca correto e errado
         for (int i = 0; i < boxAlternativas.getChildren().size(); i++) {
             Button btn = (Button) boxAlternativas.getChildren().get(i);
             if (i == q.indiceCorreto) {
@@ -184,7 +145,6 @@ public class AtividadeQuestaoController {
             btn.setDisable(true);
         }
 
-        // Feedback
         if (acertou) {
             labelIconeFeedback.setText("✅");
             labelTituloFeedback.setText("Correto!");
@@ -201,7 +161,6 @@ public class AtividadeQuestaoController {
             labelExplicacao.setText(q.explicacaoErro);
         }
 
-        // Última questão: muda texto do botão
         boolean ultima = questaoAtual == questoes.size() - 1;
         botaoProxima.setText(ultima ? "Finalizar Atividade ✓" : "Próxima Questão →");
 
@@ -211,81 +170,100 @@ public class AtividadeQuestaoController {
         areaFeedback.setManaged(true);
     }
 
-    // ── Avança pra próxima ou finaliza (NOME CORRIGIDO AQUI) ─────────
     @FXML
-    public void proximaQuestaoAction() {
+    public void proximaQuestaoAction(ActionEvent event) {
         if (questaoAtual < questoes.size() - 1) {
             carregarQuestao(questaoAtual + 1);
         } else {
-            // Finalizado — volta pra tela de vídeo aula buscando a scene direto do botaoProxima
+            // Eu gravo o progresso das atividades terminadas no banco
+            salvarProgressoAtividade(); 
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/VideoAula.fxml"));
-                botaoProxima.getScene().setRoot(root);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));
+                Parent root = loader.load();
+                
+                VideoAulaController controller = loader.getController();
+                controller.setUsuarioEmail(usuarioEmail);
+
+                ((Node) event.getSource()).getScene().setRoot(root);
             } catch (Exception e) {
                 System.out.println("Erro ao finalizar atividade: " + e.getMessage());
             }
         }
     }
 
-    // ── Voltar ───────────────────────────────────────────────────────
-    @FXML
-    public void voltarAction() {
+    private void salvarProgressoAtividade() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/VideoAula.fxml"));
-            botaoVoltar.getScene().setRoot(root);
+            long idUsuario = obterIdUsuario(usuarioEmail);
+            if (idUsuario == -1) return;
+
+            int idAula = 1; // Atividade 1 corresponde à Aula 1
+
+            if (!checarProgressoExiste(idUsuario, idAula, "ATIVIDADE_CONCLUIDA")) {
+                String query = "INSERT INTO usuario_progresso (id_usuario, id_aula, tipo_conclusao) VALUES (?, ?, 'ATIVIDADE_CONCLUIDA')";
+                try (Connection conn = databaseConn.connect();
+                     PreparedStatement stmt = conn.prepareStatement(query)) {
+                    stmt.setLong(1, idUsuario);
+                    stmt.setInt(2, idAula);
+                    stmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar progresso de atividade: " + e.getMessage());
+        }
+    }
+
+    private long obterIdUsuario(String email) throws SQLException {
+        String query = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("pkIdUsuario");
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean checarProgressoExiste(long idUsuario, int idAula, String tipoConclusao) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND tipo_conclusao = ?";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setLong(1, idUsuario);
+            stmt.setInt(2, idAula);
+            stmt.setString(3, tipoConclusao);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
+
+    @FXML
+    public void voltarAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));
+            Parent root = loader.load();
+            
+            VideoAulaController controller = loader.getController();
+            controller.setUsuarioEmail(usuarioEmail);
+
+            ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {
             System.out.println("Erro ao voltar: " + e.getMessage());
         }
     }
 
-    // ── Estilos ──────────────────────────────────────────────────────
     private String estiloAlternativaNormal() {
-        return "-fx-background-color: #F1F5F9;" +
-               "-fx-text-fill: #0D1B54;" +
-               "-fx-font-size: 15px;" +
-               "-fx-font-weight: bold;" +
-               "-fx-background-radius: 14;" +
-               "-fx-border-color: #CBD5E1;" +
-               "-fx-border-radius: 14;" +
-               "-fx-cursor: hand;" +
-               "-fx-padding: 14 16 14 16;" +
-               "-fx-alignment: CENTER_LEFT;";
+        return "-fx-background-color: #F1F5F9;-fx-text-fill: #0D1B54;-fx-font-size: 15px;-fx-font-weight: bold;-fx-background-radius: 14;-fx-border-color: #CBD5E1;-fx-border-radius: 14;-fx-cursor: hand;-fx-padding: 14 16 14 16;-fx-alignment: CENTER_LEFT;";
     }
-
     private String estiloAlternativaSelecionada() {
-        return "-fx-background-color: #0D1B54;" +
-               "-fx-text-fill: white;" +
-               "-fx-font-size: 15px;" +
-               "-fx-font-weight: bold;" +
-               "-fx-background-radius: 14;" +
-               "-fx-border-color: #0D1B54;" +
-               "-fx-border-radius: 14;" +
-               "-fx-cursor: hand;" +
-               "-fx-padding: 14 16 14 16;" +
-               "-fx-alignment: CENTER_LEFT;";
+        return "-fx-background-color: #0D1B54;-fx-text-fill: white;-fx-font-size: 15px;-fx-font-weight: bold;-fx-background-radius: 14;-fx-border-color: #0D1B54;-fx-border-radius: 14;-fx-cursor: hand;-fx-padding: 14 16 14 16;-fx-alignment: CENTER_LEFT;";
     }
-
     private String estiloAlternativaCorreta() {
-        return "-fx-background-color: #16A34A;" +
-               "-fx-text-fill: white;" +
-               "-fx-font-size: 15px;" +
-               "-fx-font-weight: bold;" +
-               "-fx-background-radius: 14;" +
-               "-fx-border-color: #16A34A;" +
-               "-fx-border-radius: 14;" +
-               "-fx-padding: 14 16 14 16;" +
-               "-fx-alignment: CENTER_LEFT;";
+        return "-fx-background-color: #16A34A;-fx-text-fill: white;-fx-font-size: 15px;-fx-font-weight: bold;-fx-background-radius: 14;-fx-border-color: #16A34A;-fx-border-radius: 14;-fx-padding: 14 16 14 16;-fx-alignment: CENTER_LEFT;";
     }
-
     private String estiloAlternativaErrada() {
-        return "-fx-background-color: #DC2626;" +
-               "-fx-text-fill: white;" +
-               "-fx-font-size: 15px;" +
-               "-fx-font-weight: bold;" +
-               "-fx-background-radius: 14;" +
-               "-fx-border-color: #DC2626;" +
-               "-fx-border-radius: 14;" +
-               "-fx-padding: 14 16 14 16;" +
-               "-fx-alignment: CENTER_LEFT;";
+        return "-fx-background-color: #DC2626;-fx-text-fill: white;-fx-font-size: 15px;-fx-font-weight: bold;-fx-background-radius: 14;-fx-border-color: #DC2626;-fx-border-radius: 14;-fx-padding: 14 16 14 16;-fx-alignment: CENTER_LEFT;";
     }
 }

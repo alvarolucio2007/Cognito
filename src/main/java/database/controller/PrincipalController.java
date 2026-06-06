@@ -45,7 +45,6 @@ public class PrincipalController {
 
     @FXML
     public void initialize() {
-        // Inicializa o ComboBox de Atividades
         if (comboModulos != null) {
             comboModulos.getItems().addAll("Memória", "Atenção", "Lógica", "Linguagem");
         }
@@ -53,24 +52,67 @@ public class PrincipalController {
 
     // Eu fiz o carregamento de dados do banco de forma dinâmica usando o e-mail do idoso logado
     private void carregarEstatisticasUsuario() {
-        String query = "SELECT COUNT(*) FROM teste_nivelamento WHERE FK_id_usuario = (SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?)";
-        try (Connection conn = databaseConn.connect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, usuarioEmail);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int concluidos = rs.getInt(1);
-                    // Atualiza os rótulos em tela de forma exclusiva para o usuário logado
-                    labelAulas1.setText("Aulas assistidas: " + (concluidos > 0 ? "10/10" : "8/10"));
-                    labelAvaliacoes1.setText("Avaliações feitas: " + concluidos + "/2");
-                }
-            }
+        try {
+            long idUsuario = obterIdUsuario(usuarioEmail);
+            if (idUsuario == -1) return;
+
+            // Card 1 (Aula 1)
+            int videosAula1 = obterContagemProgresso(idUsuario, 1, "VIDEO_ASSISTIDO");
+            int atividadesAula1 = obterContagemProgresso(idUsuario, 1, "ATIVIDADE_CONCLUIDA");
+            
+            // Se assistiu, mostramos "10/10", senão "0/10"
+            labelAulas1.setText("Aulas assistidas: " + (videosAula1 > 0 ? "10/10" : "0/10"));
+            labelAvaliacoes1.setText("Avaliações feitas: " + (atividadesAula1 > 0 ? "2/2" : "0/2"));
+
+            // Card 2 (Aula 2)
+            int videosAula2 = obterContagemProgresso(idUsuario, 2, "VIDEO_ASSISTIDO");
+            int atividadesAula2 = obterContagemProgresso(idUsuario, 2, "ATIVIDADE_CONCLUIDA");
+            
+            labelAulas2.setText("Aulas assistidas: " + (videosAula2 > 0 ? "4/4" : "0/4"));
+            labelAvaliacoes2.setText("Avaliações feitas: " + (atividadesAula2 > 0 ? "1/1" : "0/1"));
+
+            // Card 3 (Aula 3)
+            int videosAula3 = obterContagemProgresso(idUsuario, 3, "VIDEO_ASSISTIDO");
+            int atividadesAula3 = obterContagemProgresso(idUsuario, 3, "ATIVIDADE_CONCLUIDA");
+            
+            labelAulas3.setText("Aulas assistidas: " + (videosAula3 > 0 ? "4/4" : "0/4"));
+            labelAvaliacoes3.setText("Avaliações feitas: " + (atividadesAula3 > 0 ? "2/2" : "0/2"));
+
         } catch (SQLException e) {
             System.out.println("Erro ao carregar estatísticas exclusivas: " + e.getMessage());
         }
     }
 
-    // Alternar para aba Vídeo Aulas
+    private long obterIdUsuario(String email) throws SQLException {
+        String query = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("pkIdUsuario");
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int obterContagemProgresso(long idUsuario, int idAula, String tipoConclusao) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND tipo_conclusao = ?";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setLong(1, idUsuario);
+            stmt.setInt(2, idAula);
+            stmt.setString(3, tipoConclusao);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
     @FXML
     public void mostrarAbaVideo() {
         scrollVideoAulas.setVisible(true);
@@ -82,7 +124,6 @@ public class PrincipalController {
         abaAtividadesBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px;");
     }
 
-    // Alternar para aba Atividades (Trilha de Livros)
     @FXML
     public void mostrarAbaAtividades() {
         scrollVideoAulas.setVisible(false);
@@ -94,7 +135,6 @@ public class PrincipalController {
         abaAtividadesBtn.setStyle("-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10;");
     }
 
-    // Clique no livro 1 da trilha inicia as atividades
     @FXML
     public void abrirTrilhaAtividade(ActionEvent event) {
         try {
@@ -153,7 +193,6 @@ public class PrincipalController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Configuracoes.fxml"));
             Parent root = loader.load();
             
-            // Passa as credenciais pro controller de configurações
             ConfiguracoesController controller = loader.getController();
             controller.setUsuarioEmail(usuarioEmail);
 
