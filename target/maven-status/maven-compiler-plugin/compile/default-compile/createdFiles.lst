@@ -12,5 +12,4 @@ database/controller/UsuarioController.class
 database/databaseModels/Usuario.class
 database/controller/PrincipalController.class
 database/controller/TesteNivelamentoController.class
-database/controller/AtividadeController.class
 database/controller/VideoAulaController.class

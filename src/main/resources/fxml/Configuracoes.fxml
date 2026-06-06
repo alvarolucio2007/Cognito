@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="database.controller.ConfiguracoesController"
+      style="-fx-background-color: white; -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0" spacing="0">
+
+    <!-- Cabeçalho com Botão Voltar -->
+    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+        <padding>
+            <Insets top="50.0" right="24.0" bottom="15.0" left="24.0"/>
+        </padding>
+        <Button fx:id="botaoVoltar" text="← Voltar" onAction="#voltar"
+                style="-fx-background-color: #000986; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"
+                prefWidth="100.0" prefHeight="38.0"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS"
+                style="-fx-background: white; -fx-background-color: transparent;">
+        <content>
+            <VBox spacing="30.0" style="-fx-background-color: white; -fx-padding: 10 24 40 24;" alignment="TOP_CENTER">
+
+                <Label text="Configurações" style="-fx-text-fill: #0d179f; -fx-font-size: 30px; -fx-font-weight: bold; -fx-font-family: 'Poppins';"/>
+
+                <!-- Tamanho da Fonte (Simulado no Slider / Campo) -->
+                <VBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Tamanho da fonte" style="-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <HBox spacing="10.0" alignment="CENTER">
+                        <Slider min="10" max="30" value="16" fx:id="sliderFonte" HBox.hgrow="ALWAYS" style="-fx-cursor: hand;"/>
+                        <TextField fx:id="sensibilidadeToqueField" text="1.5" prefWidth="60.0"
+                                   style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 14px; -fx-padding: 8;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Idioma -->
+                <VBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Idioma" style="-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="comboIdioma" prefWidth="392.0" prefHeight="47.0" promptText="Português - Brasil"
+                              style="-fx-background-color: rgba(166, 172, 255, 0.4); -fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                </VBox>
+
+                <!-- Contraste / Modos -->
+                <VBox spacing="12.0" alignment="CENTER_LEFT">
+                    <Label text="Acessibilidade" style="-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <CheckBox fx:id="altoContrasteField" text="Modo Alto Contraste" style="-fx-font-size: 16px; -fx-cursor: hand;"/>
+                    <CheckBox fx:id="textoAmpliadoField" text="Texto Ampliado" style="-fx-font-size: 16px; -fx-cursor: hand;"/>
+                    <CheckBox fx:id="modoVozField" text="Modo Auxiliar de Voz" style="-fx-font-size: 16px; -fx-cursor: hand;"/>
+                </VBox>
+
+                <!-- Suporte Links -->
+                <VBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Hyperlink text="Suporte por vídeo chamada" onAction="#abrirSuporteVideo" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #000763; -fx-underline: true;"/>
+                    <Hyperlink text="Suporte por chat" onAction="#abrirSuporteChat" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #000763; -fx-underline: true;"/>
+                </VBox>
+
+                <Label fx:id="labelAviso" style="-fx-text-fill: #DC2626; -fx-font-size: 14px;" wrapText="true" textAlignment="CENTER"/>
+
+                <!-- Botões de Ações -->
+                <VBox spacing="15.0" alignment="CENTER">
+                    <Button text="Salvar Modificações" onAction="#salvarConfiguracoes"
+                            style="-fx-background-color: #00c731; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"
+                            prefWidth="262.0" prefHeight="55.0"/>
+                    
+                    <Button text="Fazer Log-Out?" onAction="#fazerLogout"
+                            style="-fx-background-color: #cc0b0b; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"
+                            prefWidth="223.0" prefHeight="51.0"/>
+                </VBox>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+</VBox>
