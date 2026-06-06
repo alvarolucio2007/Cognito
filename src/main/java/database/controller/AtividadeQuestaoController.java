@@ -16,6 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class AtividadeQuestaoController {
@@ -29,7 +31,8 @@ public class AtividadeQuestaoController {
     @FXML private Label labelIconeFeedback;
     @FXML private Label labelTituloFeedback;
     @FXML private Label labelSubtituloFeedback;
-    @FXML private Label labelMascote;
+    @FXML private Label labelMascote; // Emoji provisório
+    @FXML private ImageView imgMascote; // Mascote do Figma
     @FXML private Label labelExplicacao;
     @FXML private Button botaoProxima;
 
@@ -146,20 +149,31 @@ public class AtividadeQuestaoController {
             btn.setDisable(true);
         }
 
-        if (acertou) {
-            labelIconeFeedback.setText("✅");
-            labelTituloFeedback.setText("Correto!");
-            labelTituloFeedback.setStyle("-fx-text-fill: #16A34A; -fx-font-size: 22px; -fx-font-weight: bold;");
-            labelSubtituloFeedback.setText("Muito bem! Continue assim.");
-            labelMascote.setText("🦉😄");
-            labelExplicacao.setText(q.explicacaoAcerto);
-        } else {
-            labelIconeFeedback.setText("❌");
-            labelTituloFeedback.setText("Errado!");
-            labelTituloFeedback.setStyle("-fx-text-fill: #DC2626; -fx-font-size: 22px; -fx-font-weight: bold;");
-            labelSubtituloFeedback.setText("Não desanime, você vai aprender!");
-            labelMascote.setText("🦉😔");
-            labelExplicacao.setText(q.explicacaoErro);
+        // Esconde o emoji provisório de texto para usar as imagens reais do figma
+        labelMascote.setVisible(false);
+
+        try {
+            if (acertou) {
+                labelIconeFeedback.setText("✅");
+                labelTituloFeedback.setText("Correto!");
+                labelTituloFeedback.setStyle("-fx-text-fill: #16A34A; -fx-font-size: 22px; -fx-font-weight: bold;");
+                labelSubtituloFeedback.setText("Muito bem! Continue assim.");
+                
+                // Carrega a imagem real do mascote feliz do Figma
+                imgMascote.setImage(new Image(getClass().getResourceAsStream("/images/Mascote_correct.png")));
+                labelExplicacao.setText(q.explicacaoAcerto);
+            } else {
+                labelIconeFeedback.setText("❌");
+                labelTituloFeedback.setText("Errado!");
+                labelTituloFeedback.setStyle("-fx-text-fill: #DC2626; -fx-font-size: 22px; -fx-font-weight: bold;");
+                labelSubtituloFeedback.setText("Não desanime, você vai aprender!");
+                
+                // Carrega a imagem real do mascote triste do Figma
+                imgMascote.setImage(new Image(getClass().getResourceAsStream("/images/Mascote_wrong.png")));
+                labelExplicacao.setText(q.explicacaoErro);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem de feedback do mascote: " + e.getMessage());
         }
 
         boolean ultima = questaoAtual == questoes.size() - 1;
@@ -182,7 +196,7 @@ public class AtividadeQuestaoController {
                 Parent root = loader.load();
                 
                 VideoAulaController controller = loader.getController();
-                controller.setUsuarioEmail(usuarioEmail); // Devolve o e-mail ativo
+                controller.setUsuarioEmail(usuarioEmail);
 
                 ((Node) event.getSource()).getScene().setRoot(root);
             } catch (Exception e) {
@@ -196,19 +210,35 @@ public class AtividadeQuestaoController {
             long idUsuario = obterIdUsuario(usuarioEmail);
             if (idUsuario == -1) return;
 
-            int idAula = 1; // Atividade 1 corresponde à Aula 1
+            int idAula = 1; // Módulo 1 (Aula 1)
+            int idAtividade = 1; // Livro 1 da trilha de atividades
 
-            if (!checarProgressoExiste(idUsuario, idAula, "ATIVIDADE_CONCLUIDA")) {
-                String query = "INSERT INTO usuario_progresso (id_usuario, id_aula, tipo_conclusao) VALUES (?, ?, 'ATIVIDADE_CONCLUIDA')";
+            if (!checarProgressoExiste(idUsuario, idAula, idAtividade, "ATIVIDADE_CONCLUIDA")) {
+                String query = "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
                 try (Connection conn = databaseConn.connect();
                      PreparedStatement stmt = conn.prepareStatement(query)) {
                     stmt.setLong(1, idUsuario);
                     stmt.setInt(2, idAula);
+                    stmt.setInt(3, idAtividade);
                     stmt.executeUpdate();
                 }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar progresso de atividade: " + e.getMessage());
+        }
+    }
+
+    private boolean checarProgressoExiste(long idUsuario, int idAula, int idAtividade, String tipoConclusao) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = ?";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setLong(1, idUsuario);
+            stmt.setInt(2, idAula);
+            stmt.setInt(3, idAtividade);
+            stmt.setString(4, tipoConclusao);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
         }
     }
 
@@ -246,7 +276,7 @@ public class AtividadeQuestaoController {
             Parent root = loader.load();
             
             VideoAulaController controller = loader.getController();
-            controller.setUsuarioEmail(usuarioEmail); // Devolve o e-mail ativo
+            controller.setUsuarioEmail(usuarioEmail);
 
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {

@@ -20,14 +20,36 @@
         <!-- Barra do Topo -->
         <HBox alignment="CENTER" spacing="0">
             <Button fx:id="botaoPerfil" onAction="#irParaPerfil" prefWidth="44.0" prefHeight="44.0"
-            style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 22; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-cursor: hand;"
-            text="👤"/>
+                    style="-fx-background-color: #FFFFFF; -fx-background-radius: 22; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitWidth="30.0" fitHeight="30.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/images/perfil_principal_icon.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
             <Region HBox.hgrow="ALWAYS" />
-            <Label text="Cognito" style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold; -fx-font-family: 'Georgia';"/>
+            
+            <ImageView fitWidth="120.0" fitHeight="30.0" preserveRatio="true">
+                <image>
+                    <Image url="@/images/logo_principal.png"/>
+                </image>
+            </ImageView>
+            
             <Region HBox.hgrow="ALWAYS" />
+            
             <Button onAction="#irParaConfiguracoes" prefWidth="44.0" prefHeight="44.0"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 24px; -fx-cursor: hand;"
-                    text="⚙"/>
+                    style="-fx-background-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitWidth="34.0" fitHeight="34.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/images/config_icon.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
         </HBox>
 
         <!-- Campo de Pesquisa -->
@@ -35,14 +57,18 @@
               style="-fx-background-color: white; -fx-background-radius: 19; -fx-padding: 8 15 8 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 4);">
             <TextField promptText="Pesquisar Módulos" HBox.hgrow="ALWAYS"
                        style="-fx-background-color: transparent; -fx-prompt-text-fill: #888888; -fx-text-fill: #333333; -fx-font-size: 15px; -fx-padding: 0;"/>
-            <Label text="🔍" style="-fx-text-fill: #0040ff; -fx-font-size: 16px;"/>
+            <ImageView fitWidth="28.0" fitHeight="28.0" preserveRatio="true">
+                <image>
+                    <Image url="@/images/search_icon.png"/>
+                </image>
+            </ImageView>
         </HBox>
     </VBox>
 
     <!-- Corpo Principal com Fundo Branco -->
     <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 46 46 0 0;">
         
-        <!-- ABA 1: scrollVideoAulas (Cards de Vídeo) -->
+        <!-- ABA 1: scrollVideoAulas -->
         <ScrollPane fx:id="scrollVideoAulas" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
                     style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
             <content>
@@ -61,9 +87,9 @@
                         <Label text="Introdução ao uso de IA e suas aplicações" 
                                style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
                         <HBox>
-                            <Label fx:id="labelAulas1" text="Aulas assistidas: 8/10" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Label fx:id="labelAulas1" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Label fx:id="labelAvaliacoes1" text="Avaliações feitas: 1/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Label fx:id="labelAvaliacoes1" text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                         </HBox>
                     </VBox>
 
@@ -80,7 +106,7 @@
                         <Label text="Atuação prática real com o uso de IA" 
                                style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
                         <HBox>
-                            <Label fx:id="labelAulas2" text="Aulas assistidas: 1/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Label fx:id="labelAulas2" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Label fx:id="labelAvaliacoes2" text="Avaliações feitas: 0/1" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                         </HBox>
@@ -99,7 +125,7 @@
                         <Label text="Uso de IA e tecnologia vestível" 
                                style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
                         <HBox>
-                            <Label fx:id="labelAulas3" text="Aulas assistidas: 0/4" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Label fx:id="labelAulas3" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Label fx:id="labelAvaliacoes3" text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                         </HBox>
@@ -109,12 +135,11 @@
             </content>
         </ScrollPane>
 
-        <!-- ABA 2: scrollAtividades (A Trilha Gamificada de Livros - Coordenadas do Figma) -->
+        <!-- ABA 2: scrollAtividades (A Trilha Gamificada) -->
         <ScrollPane fx:id="scrollAtividades" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
                     visible="false" managed="false"
                     style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
             <content>
-                <!-- Usamos um Pane para posicionar as estrelas e os livros nas posições exatas do Figma -->
                 <Pane prefWidth="440.0" prefHeight="850.0" style="-fx-background-color: white;">
                     <children>
                         
@@ -123,46 +148,89 @@
                                   promptText="Selecionar Módulo que Deseja Exercitar"
                                   style="-fx-background-color: rgba(53, 73, 205, 0.15); -fx-background-radius: 20; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand;"/>
 
-                        <!-- Estrela Tridimensional do Topo (Star) -->
-                        <StackPane layoutX="208.0" layoutY="135.0" prefWidth="181.0" prefHeight="81.0" 
-                                   style="-fx-background-color: #5762ff; -fx-background-radius: 40; -fx-effect: dropshadow(gaussian, #000886, 15, 0, 0, 8);">
+                        <!-- Estrela Tridimensional de Progresso Real -->
+                        <StackPane layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0">
                             <children>
-                                <Label text="⭐" style="-fx-text-fill: white; -fx-font-size: 32px;"/>
+                                <ImageView fitWidth="150.0" fitHeight="90.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/star_icon.png"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </StackPane>
 
-                        <!-- Livro 5 (Posição Relativa do Figma: top 414px, left 220px) -->
-                        <Button text="📖 5" layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
-                                style="-fx-background-color: #5762ff; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);"/>
+                        <!-- Livro 5 (Figma: top 414px, left 220px) -->
+                        <Button layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
-                        <!-- Livro 1 (Posição Relativa do Figma: top 489px, left 141px) -->
-                        <Button onAction="#abrirTrilhaAtividade" text="📖 1" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
-                                style="-fx-background-color: #5762ff; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);"/>
+                        <!-- Livro 1 (Figma: top 489px, left 141px) -> ÚNICO CLICÁVEL POR SER O PONTO DE PARTIDA -->
+                        <Button onAction="#abrirTrilhaAtividade" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
-                        <!-- Livro 2 (Posição Relativa do Figma: top 573px, left 76px) -->
-                        <Button text="📖 2" layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
-                                style="-fx-background-color: #5762ff; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);"/>
+                        <!-- Livro 2 (Figma: top 573px, left 76px) -->
+                        <Button layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
-                        <!-- Livro 3 (Posição Relativa do Figma: top 671px, left 105px) -->
-                        <Button text="📖 3" layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
-                                style="-fx-background-color: #5762ff; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);"/>
+                        <!-- Livro 3 (Figma: top 671px, left 105px) -->
+                        <Button layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
-                        <!-- Livro 4 (Posição Relativa do Figma: top 755px, left 164px) -->
-                        <Button text="📖 4" layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
-                                style="-fx-background-color: #5762ff; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);"/>
+                        <!-- Livro 4 (Figma: top 755px, left 164px) -->
+                        <Button layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
                     </children>
                 </Pane>
             </content>
         </ScrollPane>
 
-        <!-- Menu Flutuante de Seleção (Alternador de Abas) -->
+        <!-- Menu Flutuante de Seleção (Abas) -->
         <VBox alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false">
             <padding>
                 <Insets bottom="30.0"/>
             </padding>
             <HBox alignment="CENTER" maxWidth="347.0" prefHeight="50.0"
-                  style="-fx-background-color: rgba(107, 107, 107, 0.15); -fx-background-radius: 10; -fx-padding: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);">
+                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-padding: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
                 <children>
                     <Button fx:id="abaVideoBtn" text="Vídeo Aulas" onAction="#mostrarAbaVideo" prefWidth="165.0" prefHeight="42.0"
                             style="-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"/>
@@ -170,7 +238,7 @@
                     <Region prefWidth="1" prefHeight="32" style="-fx-background-color: #b1b1b1;" />
                     
                     <Button fx:id="abaAtividadesBtn" text="Atividades" onAction="#mostrarAbaAtividades" prefWidth="165.0" prefHeight="42.0"
-                            style="-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px; -fx-cursor: hand;"/>
+                            style="-fx-background-color: transparent; -fx-text-fill: #1E293B; -fx-font-size: 16px; -fx-cursor: hand;"/>
                 </children>
             </HBox>
         </VBox>

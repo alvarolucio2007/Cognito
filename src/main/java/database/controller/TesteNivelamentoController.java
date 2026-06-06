@@ -82,11 +82,8 @@ public class TesteNivelamentoController {
     }
 
     private void salvarNoBanco(String nivel) throws SQLException {
-        // Eu usei o nome de coluna 'pkidusuario' porque o PostgreSQL cria as colunas
-        // sem aspas em formato minúsculo. Busco o ID do usuário de forma segura.
-        
-                // EU EDITEI ESTA LINHA PARA USAR AS ASPAS "pkIdUsuario":
-        String queryBuscaId = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+        // Agora usamos a coluna limpa e padronizada: pk_id_usuario
+        String queryBuscaId = "SELECT pk_id_usuario FROM usuario WHERE usuario_email = ?";
         long idUsuario = -1;
 
         try (Connection conn = databaseConn.connect();
@@ -94,8 +91,7 @@ public class TesteNivelamentoController {
             stmtBusca.setString(1, usuarioEmail);
             try (ResultSet rs = stmtBusca.executeQuery()) {
                 if (rs.next()) {
-                    // LÊ EXATAMENTE COM MAIÚSCULAS/MINÚSCULAS:
-                    idUsuario = rs.getLong("pkIdUsuario"); 
+                    idUsuario = rs.getLong("pk_id_usuario");
                 }
             }
         }

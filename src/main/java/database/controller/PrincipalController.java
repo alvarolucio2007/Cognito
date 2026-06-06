@@ -21,14 +21,12 @@ public class PrincipalController {
 
     @FXML private Button botaoPerfil;
     
-    // Controles de Abas FXML
     @FXML private ScrollPane scrollVideoAulas;
     @FXML private ScrollPane scrollAtividades;
     @FXML private Button abaVideoBtn;
     @FXML private Button abaAtividadesBtn;
     @FXML private ComboBox<String> comboModulos;
     
-    // Rótulos de Estatísticas Individuais do Usuário
     @FXML private Label labelAulas1;
     @FXML private Label labelAvaliacoes1;
     @FXML private Label labelAulas2;
@@ -40,7 +38,7 @@ public class PrincipalController {
 
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
-        carregarEstatisticasUsuario(); // Carrega os dados reais do banco
+        carregarEstatisticasUsuario(); 
     }
 
     @FXML
@@ -50,33 +48,25 @@ public class PrincipalController {
         }
     }
 
-    // Eu fiz o carregamento de dados do banco de forma dinâmica usando o e-mail do idoso logado
+    // Eu fiz o carregamento de dados do progresso dinamicamente usando as colunas da nova tabela
     private void carregarEstatisticasUsuario() {
         try {
             long idUsuario = obterIdUsuario(usuarioEmail);
             if (idUsuario == -1) return;
 
-            // Card 1 (Aula 1)
-            int videosAula1 = obterContagemProgresso(idUsuario, 1, "VIDEO_ASSISTIDO");
+            // Busca do banco quantas atividades (livros) o idoso concluiu no Módulo 1 (Aula 1)
             int atividadesAula1 = obterContagemProgresso(idUsuario, 1, "ATIVIDADE_CONCLUIDA");
+            int avaliacoesAula1 = obterContagemProgresso(idUsuario, 1, "AVALIACAO_CONCLUIDA");
             
-            // Se assistiu, mostramos "10/10", senão "0/10"
-            labelAulas1.setText("Aulas assistidas: " + (videosAula1 > 0 ? "10/10" : "0/10"));
-            labelAvaliacoes1.setText("Avaliações feitas: " + (atividadesAula1 > 0 ? "2/2" : "0/2"));
+            // Exibo as atividades concluídas de forma cumulativa baseada nas interações
+            labelAulas1.setText("Atividades feitas: " + atividadesAula1 + "/5");
+            labelAvaliacoes1.setText("Avaliações feitas: " + avaliacoesAula1 + "/2");
 
-            // Card 2 (Aula 2)
-            int videosAula2 = obterContagemProgresso(idUsuario, 2, "VIDEO_ASSISTIDO");
+            // Módulo 2
             int atividadesAula2 = obterContagemProgresso(idUsuario, 2, "ATIVIDADE_CONCLUIDA");
-            
-            labelAulas2.setText("Aulas assistidas: " + (videosAula2 > 0 ? "4/4" : "0/4"));
-            labelAvaliacoes2.setText("Avaliações feitas: " + (atividadesAula2 > 0 ? "1/1" : "0/1"));
-
-            // Card 3 (Aula 3)
-            int videosAula3 = obterContagemProgresso(idUsuario, 3, "VIDEO_ASSISTIDO");
-            int atividadesAula3 = obterContagemProgresso(idUsuario, 3, "ATIVIDADE_CONCLUIDA");
-            
-            labelAulas3.setText("Aulas assistidas: " + (videosAula3 > 0 ? "4/4" : "0/4"));
-            labelAvaliacoes3.setText("Avaliações feitas: " + (atividadesAula3 > 0 ? "2/2" : "0/2"));
+            int avaliacoesAula2 = obterContagemProgresso(idUsuario, 2, "AVALIACAO_CONCLUIDA");
+            labelAulas2.setText("Atividades feitas: " + atividadesAula2 + "/5");
+            labelAvaliacoes2.setText("Avaliações feitas: " + avaliacoesAula2 + "/1");
 
         } catch (SQLException e) {
             System.out.println("Erro ao carregar estatísticas exclusivas: " + e.getMessage());
@@ -121,7 +111,7 @@ public class PrincipalController {
         scrollAtividades.setManaged(false);
 
         abaVideoBtn.setStyle("-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10;");
-        abaAtividadesBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px;");
+        abaAtividadesBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #1E293B; -fx-font-size: 16px;");
     }
 
     @FXML
@@ -131,7 +121,7 @@ public class PrincipalController {
         scrollAtividades.setVisible(true);
         scrollAtividades.setManaged(true);
 
-        abaVideoBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #000000; -fx-font-size: 16px;");
+        abaVideoBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #1E293B; -fx-font-size: 16px;");
         abaAtividadesBtn.setStyle("-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10;");
     }
 
@@ -202,14 +192,12 @@ public class PrincipalController {
         }
     }
 
-
     @FXML
-    public void irParaPerfil(ActionEvent event) {
+    private void irParaPerfil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Perfil.fxml"));
             Parent root = loader.load();
             
-            // isso aqui pssa as credenciais do usuário logado para a tela de Perfil
             PerfilController controller = loader.getController();
             controller.setUsuarioEmail(usuarioEmail);
 
@@ -218,5 +206,4 @@ public class PrincipalController {
             System.out.println("Erro ao abrir tela de Perfil: " + e.getMessage());
         }
     }
-
 }

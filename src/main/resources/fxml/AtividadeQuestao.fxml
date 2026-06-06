@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="database.controller.AtividadeQuestaoController"
@@ -51,14 +52,13 @@
                                -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;
                                -fx-pref-height: 54px;"/>
 
-                <!-- Área de Feedback (oculta inicialmente) -->
+                <!-- Área de Feedback -->
                 <VBox fx:id="areaFeedback" spacing="14.0" visible="false" managed="false"
                       style="-fx-background-color: #F8FAFC; -fx-background-radius: 20; -fx-padding: 20;">
 
                     <!-- Ícone + Título -->
                     <HBox alignment="CENTER" spacing="12.0">
-                        <Label fx:id="labelIconeFeedback" text="✅"
-                               style="-fx-font-size: 36px;"/>
+                        <Label fx:id="labelIconeFeedback" text="✅" style="-fx-font-size: 36px;"/>
                         <VBox spacing="2.0">
                             <Label fx:id="labelTituloFeedback" text="Correto!"
                                    style="-fx-text-fill: #16A34A; -fx-font-size: 22px; -fx-font-weight: bold;"/>
@@ -67,9 +67,14 @@
                         </VBox>
                     </HBox>
 
-                    <!-- Mascote (ele é temporario) -->
+                    <!-- Mascote de Feedback Dinâmico do Figma -->
                     <HBox alignment="CENTER">
-                        <Label fx:id="labelMascote" text="🦉" style="-fx-font-size: 64px;"/>
+                        <StackPane>
+                            <children>
+                                <ImageView fx:id="imgMascote" fitWidth="120.0" fitHeight="150.0" preserveRatio="true"/>
+                                <Label fx:id="labelMascote" text="🦉" style="-fx-font-size: 64px;"/> <!-- Placeholder em Emoji -->
+                            </children>
+                        </StackPane>
                     </HBox>
 
                     <!-- Explicação técnica -->
@@ -81,9 +86,9 @@
                                style="-fx-text-fill: #1E3A5F; -fx-font-size: 14px; -fx-padding: 6 0 0 0;"/>
                     </VBox>
 
-                    <!-- Botão Próxima (Sincronizado com proximaQuestaoAction) -->
+                    <!-- Botão Próxima -->
                     <Button fx:id="botaoProxima" text="Próxima Questão →" onAction="#proximaQuestaoAction"
-                            maxWidth="1.8"
+                            maxWidth="1.7976931348623157E308"
                             style="-fx-background-color: #001EE4; -fx-text-fill: white; -fx-font-size: 16px;
                                    -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;
                                    -fx-pref-height: 50px;"/>
