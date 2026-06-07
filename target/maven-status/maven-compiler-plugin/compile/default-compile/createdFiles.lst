@@ -1,11 +1,12 @@
-database/controller/AtividadeQuestaoController$Questao.class
 database/controller/LoginController.class
 database/controller/ConfiguracoesController.class
 database/databaseModels/Configuracoes.class
+database/controller/BancoQuestoes$Questao.class
 database/controller/AtividadeQuestaoController.class
 javaFX/HelloFX.class
 database/controller/PerfilController.class
 database/databaseModels/TesteNivelamento.class
+database/controller/BancoQuestoes.class
 database/databaseModels/Aula.class
 database/databaseModels/Configuracao.class
 database/conn/databaseConn.class

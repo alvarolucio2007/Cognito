@@ -36,7 +36,7 @@ public class LoginController {
             }
 
             if (senhaDigitada.equals(senhaRecebida)) {
-                // Eu passo o e-mail digitado para que o método propage o login na próxima tela
+                // Eu atualizei esta linha para passar o e-mail digitado no login
                 irParaPrincipal(emailDigitado); 
             } else {
                 System.out.println("Senha incorreta.");
@@ -46,15 +46,14 @@ public class LoginController {
         }
     }
 
-    // Eu atualizei a assinatura deste método para receber a String do e-mail de login,
-    // garantindo que as informações do usuário logado cheguem corretamente à tela principal.
+    // Eu reescrevi este método para carregar o FXML dinamicamente e injetar o e-mail logado no PrincipalController
     private void irParaPrincipal(String email) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
             Parent root = loader.load();
 
             PrincipalController controller = loader.getController();
-            controller.setUsuarioEmail(email); // Injeta o e-mail na tela principal
+            controller.setUsuarioEmail(email); // Injeta a sessão de e-mail na tela principal
 
             botaoLogin.getScene().setRoot(root);
         } catch (Exception e) {

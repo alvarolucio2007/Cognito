@@ -21,12 +21,14 @@ public class PrincipalController {
 
     @FXML private Button botaoPerfil;
     
+    // Controles de Abas FXML
     @FXML private ScrollPane scrollVideoAulas;
     @FXML private ScrollPane scrollAtividades;
     @FXML private Button abaVideoBtn;
     @FXML private Button abaAtividadesBtn;
     @FXML private ComboBox<String> comboModulos;
     
+    // Rótulos de Estatísticas Individuais do Usuário
     @FXML private Label labelAulas1;
     @FXML private Label labelAvaliacoes1;
     @FXML private Label labelAulas2;
@@ -48,23 +50,17 @@ public class PrincipalController {
         }
     }
 
-    // Eu fiz o carregamento de dados do progresso dinamicamente usando as colunas da nova tabela
+    // Busco as estatísticas diretamente por e-mail, sem depender de chaves primárias
     private void carregarEstatisticasUsuario() {
         try {
-            long idUsuario = obterIdUsuario(usuarioEmail);
-            if (idUsuario == -1) return;
-
-            // Busca do banco quantas atividades (livros) o idoso concluiu no Módulo 1 (Aula 1)
-            int atividadesAula1 = obterContagemProgresso(idUsuario, 1, "ATIVIDADE_CONCLUIDA");
-            int avaliacoesAula1 = obterContagemProgresso(idUsuario, 1, "AVALIACAO_CONCLUIDA");
+            int atividadesAula1 = obterContagemProgresso(usuarioEmail, 1, "ATIVIDADE_CONCLUIDA");
+            int avaliacoesAula1 = obterContagemProgresso(usuarioEmail, 1, "AVALIACAO_CONCLUIDA");
             
-            // Exibo as atividades concluídas de forma cumulativa baseada nas interações
             labelAulas1.setText("Atividades feitas: " + atividadesAula1 + "/5");
             labelAvaliacoes1.setText("Avaliações feitas: " + avaliacoesAula1 + "/2");
 
-            // Módulo 2
-            int atividadesAula2 = obterContagemProgresso(idUsuario, 2, "ATIVIDADE_CONCLUIDA");
-            int avaliacoesAula2 = obterContagemProgresso(idUsuario, 2, "AVALIACAO_CONCLUIDA");
+            int atividadesAula2 = obterContagemProgresso(usuarioEmail, 2, "ATIVIDADE_CONCLUIDA");
+            int avaliacoesAula2 = obterContagemProgresso(usuarioEmail, 2, "AVALIACAO_CONCLUIDA");
             labelAulas2.setText("Atividades feitas: " + atividadesAula2 + "/5");
             labelAvaliacoes2.setText("Avaliações feitas: " + avaliacoesAula2 + "/1");
 
@@ -73,25 +69,11 @@ public class PrincipalController {
         }
     }
 
-    private long obterIdUsuario(String email) throws SQLException {
-        String query = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+    private int obterContagemProgresso(String email, int idAula, String tipoConclusao) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE usuario_email = ? AND id_aula = ? AND tipo_conclusao = ?";
         try (Connection conn = databaseConn.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getLong("pkIdUsuario");
-                }
-            }
-        }
-        return -1;
-    }
-
-    private int obterContagemProgresso(long idUsuario, int idAula, String tipoConclusao) throws SQLException {
-        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND tipo_conclusao = ?";
-        try (Connection conn = databaseConn.connect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setLong(1, idUsuario);
             stmt.setInt(2, idAula);
             stmt.setString(3, tipoConclusao);
             try (ResultSet rs = stmt.executeQuery()) {

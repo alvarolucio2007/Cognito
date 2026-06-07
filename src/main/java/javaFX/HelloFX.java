@@ -17,7 +17,7 @@ public class HelloFX extends Application {
             stage.setHeight(950);
             // stage.initStyle(StageStyle.TRANSPARENT);
     
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Principal.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
             Scene scene = new Scene(root);
     
             stage.setResizable(false);

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
 import database.conn.databaseConn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,13 +24,10 @@ public class TesteNivelamentoController {
     private String usuarioEmail;
     private Boolean usaAssistenteVoz = null;
 
-    // Eu criei esse setter para conseguir injetar o email do usuário na transição desse jeito realizar as buscas no banco de dados 
-    // para associar o teste no ID dele.
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
     }
 
-    // Aqui fica a lógca de clique pra o sistema dar uma resposta a interação do usuário
     @FXML
     private void selecionarSim() {
         usaAssistenteVoz = true;
@@ -65,25 +61,23 @@ public class TesteNivelamentoController {
         }
     }
 
-    // Eu defini essa métrica de pontuação baseada nas respostas: quanto maior o tempo
-    // de uso do celular e a facilidade de usar comando de voz, maior a pontuação.
     private String calcularNivel(LocalDate posse, boolean usaVoz) {
-        int pontos = 0;
+        int points = 0;
 
         int anosDePosse = LocalDate.now().getYear() - posse.getYear();
-        if (anosDePosse > 5) pontos += 2;
-        else if (anosDePosse >= 2) pontos += 1;
+        if (anosDePosse > 5) points += 2;
+        else if (anosDePosse >= 2) points += 1;
 
-        if (usaVoz) pontos += 1;
+        if (usaVoz) points += 1;
 
-        if (pontos <= 1) return "Iniciante";
-        if (pontos <= 2) return "Intermediário";
+        if (points <= 1) return "Iniciante";
+        if (points <= 2) return "Intermediário";
         return "Avançado";
     }
 
     private void salvarNoBanco(String nivel) throws SQLException {
-        // Agora usamos a coluna limpa e padronizada: pk_id_usuario
-        String queryBuscaId = "SELECT pk_id_usuario FROM usuario WHERE usuario_email = ?";
+        // Eu busco todas as colunas do usuário para extrair a chave primária de forma dinâmica por índice
+        String queryBuscaId = "SELECT * FROM usuario WHERE usuario_email = ?";
         long idUsuario = -1;
 
         try (Connection conn = databaseConn.connect();
@@ -91,7 +85,9 @@ public class TesteNivelamentoController {
             stmtBusca.setString(1, usuarioEmail);
             try (ResultSet rs = stmtBusca.executeQuery()) {
                 if (rs.next()) {
-                    idUsuario = rs.getLong("pk_id_usuario");
+                    // Eu leio o valor da primeira coluna (a chave primária SERIAL) pelo índice 1, 
+                    // eliminando totalmente os erros de nomes de colunas do Postgres
+                    idUsuario = rs.getLong(1); 
                 }
             }
         }
@@ -111,14 +107,13 @@ public class TesteNivelamentoController {
         }
     }
 
-    // Eu alterei o método para propagar o e-mail do usuário após o teste de nivelamento
     private void irParaPrincipal() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
             Parent root = loader.load();
 
             PrincipalController controller = loader.getController();
-            controller.setUsuarioEmail(usuarioEmail); // Propaga o e-mail recebido
+            controller.setUsuarioEmail(usuarioEmail);
 
             botaoContinuar.getScene().setRoot(root);
         } catch (Exception e) {

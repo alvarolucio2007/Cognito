@@ -1,13 +1,10 @@
 package database.controller;
 
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import database.conn.databaseConn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 public class AtividadeQuestaoController {
 
@@ -31,8 +28,8 @@ public class AtividadeQuestaoController {
     @FXML private Label labelIconeFeedback;
     @FXML private Label labelTituloFeedback;
     @FXML private Label labelSubtituloFeedback;
-    @FXML private Label labelMascote; // Emoji provisório
-    @FXML private ImageView imgMascote; // Mascote do Figma
+    @FXML private Label labelMascote; 
+    @FXML private ImageView imgMascote; 
     @FXML private Label labelExplicacao;
     @FXML private Button botaoProxima;
 
@@ -40,49 +37,21 @@ public class AtividadeQuestaoController {
     private int questaoAtual = 0;
     private Button alternativaSelecionada = null;
 
-    private static class Questao {
-        String pergunta;
-        List<String> alternativas;
-        int indiceCorreto;
-        String explicacaoAcerto;
-        String explicacaoErro;
+    // ─────────────────────────────────────────────────────────────────────────
+    // Eu retirei as perguntas daqui de dentro para não poluir o código.
+    // Agora o painel carrega as perguntas dinamicamente da classe 'BancoQuestoes.java'!
+    // ─────────────────────────────────────────────────────────────────────────
+    private List<BancoQuestoes.Questao> questoes;
+    private int idAtividadeAtiva = 1; // Guarda qual livro da trilha o idoso está jogando (1 a 5)
+    private String moduloAtivo = "Geral"; // Guarda o módulo selecionado no ComboBox
 
-        Questao(String pergunta, List<String> alternativas, int indiceCorreto,
-                String explicacaoAcerto, String explicacaoErro) {
-            this.pergunta = pergunta;
-            this.alternativas = alternativas;
-            this.indiceCorreto = indiceCorreto;
-            this.explicacaoAcerto = explicacaoAcerto;
-            this.explicacaoErro = explicacaoErro;
-        }
+    // Este método é chamado pelo painel anterior para setar dinamicamente qual livro foi aberto!
+    public void configurarAtividade(String modulo, int idAtividade) {
+        this.moduloAtivo = modulo;
+        this.idAtividadeAtiva = idAtividade;
+        this.questoes = BancoQuestoes.obterQuestoes(modulo, idAtividade);
+        carregarQuestao(0);
     }
-
-    private final List<Questao> questoes = new ArrayList<>(Arrays.asList(
-        new Questao(
-            "Qual destas opções melhor descreve a Inteligência Artificial no seu cotidiano?",
-            Arrays.asList(
-                "Um robô que substitui os humanos no trabalho",
-                "Um assistente que ajuda a realizar tarefas e encontrar informações mais rápido",
-                "Um vírus de computador que espiona as pessoas",
-                "Um canal de TV interativo"
-            ),
-            1,
-            "Exatamente! A IA é uma ferramenta que nos ajuda no dia a dia, como quando pedimos receitas ao Google ou usamos o GPS para nos guiar.",
-            "Não se preocupe! A IA não é um robô ou vírus. Ela é como um assistente digital que nos ajuda a fazer coisas mais rápido, como encontrar receitas ou calcular rotas."
-        ),
-        new Questao(
-            "Para que serve o campo de digitação (prompt) no ChatGPT?",
-            Arrays.asList(
-                "Para fazer ligações telefônicas",
-                "Para assistir vídeos na internet",
-                "Para escrever perguntas ou comandos que você quer que a IA responda",
-                "Para comprar produtos online"
-            ),
-            2,
-            "Perfeito! O prompt é o local onde você escreve o que quer da IA, como se fosse mandar uma mensagem para ela.",
-            "O prompt é onde você escreve suas perguntas para a IA, como se fosse um chat. Você pode pedir receitas, tirar dúvidas ou pedir sugestões!"
-        )
-    ));
 
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
@@ -90,7 +59,7 @@ public class AtividadeQuestaoController {
 
     @FXML
     public void initialize() {
-        carregarQuestao(0);
+        // Eu retirei a inicialização fixa daqui para que o método configurarAtividade() acima controle tudo.
     }
 
     private void carregarQuestao(int indice) {
@@ -101,7 +70,13 @@ public class AtividadeQuestaoController {
         botaoResponder.setVisible(true);
         botaoResponder.setManaged(true);
 
-        Questao q = questoes.get(indice);
+        if (questoes == null || questoes.isEmpty()) {
+            labelPergunta.setText("Aviso: Módulo de questões em desenvolvimento.");
+            botaoResponder.setVisible(false);
+            return;
+        }
+
+        BancoQuestoes.Questao q = questoes.get(indice);
         labelPergunta.setText(q.pergunta);
         labelNumeroQuestao.setText("Questão " + (indice + 1) + "/" + questoes.size());
 
@@ -135,7 +110,7 @@ public class AtividadeQuestaoController {
             return;
         }
 
-        Questao q = questoes.get(questaoAtual);
+        BancoQuestoes.Questao q = questoes.get(questaoAtual);
         int indiceSelecionado = boxAlternativas.getChildren().indexOf(alternativaSelecionada);
         boolean acertou = indiceSelecionado == q.indiceCorreto;
 
@@ -149,7 +124,6 @@ public class AtividadeQuestaoController {
             btn.setDisable(true);
         }
 
-        // Esconde o emoji provisório de texto para usar as imagens reais do figma
         labelMascote.setVisible(false);
 
         try {
@@ -158,8 +132,6 @@ public class AtividadeQuestaoController {
                 labelTituloFeedback.setText("Correto!");
                 labelTituloFeedback.setStyle("-fx-text-fill: #16A34A; -fx-font-size: 22px; -fx-font-weight: bold;");
                 labelSubtituloFeedback.setText("Muito bem! Continue assim.");
-                
-                // Carrega a imagem real do mascote feliz do Figma
                 imgMascote.setImage(new Image(getClass().getResourceAsStream("/images/Mascote_correct.png")));
                 labelExplicacao.setText(q.explicacaoAcerto);
             } else {
@@ -167,8 +139,6 @@ public class AtividadeQuestaoController {
                 labelTituloFeedback.setText("Errado!");
                 labelTituloFeedback.setStyle("-fx-text-fill: #DC2626; -fx-font-size: 22px; -fx-font-weight: bold;");
                 labelSubtituloFeedback.setText("Não desanime, você vai aprender!");
-                
-                // Carrega a imagem real do mascote triste do Figma
                 imgMascote.setImage(new Image(getClass().getResourceAsStream("/images/Mascote_wrong.png")));
                 labelExplicacao.setText(q.explicacaoErro);
             }
@@ -190,13 +160,15 @@ public class AtividadeQuestaoController {
         if (questaoAtual < questoes.size() - 1) {
             carregarQuestao(questaoAtual + 1);
         } else {
+            // Eu gravo o progresso passando o ID dinâmico do livro que foi concluído!
             salvarProgressoAtividade(); 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));
                 Parent root = loader.load();
                 
                 VideoAulaController controller = loader.getController();
-                controller.setUsuarioEmail(usuarioEmail);
+                controller.setUsuarioEmail(usuarioEmail); // PROPAGA O EMAIL DE VOLTA!
+                controller.setTituloAula("Introdução ao uso de IA e suas aplicações");
 
                 ((Node) event.getSource()).getScene().setRoot(root);
             } catch (Exception e) {
@@ -206,20 +178,17 @@ public class AtividadeQuestaoController {
     }
 
     private void salvarProgressoAtividade() {
+        if (usuarioEmail == null) return;
         try {
-            long idUsuario = obterIdUsuario(usuarioEmail);
-            if (idUsuario == -1) return;
+            int idAula = 1; 
 
-            int idAula = 1; // Módulo 1 (Aula 1)
-            int idAtividade = 1; // Livro 1 da trilha de atividades
-
-            if (!checarProgressoExiste(idUsuario, idAula, idAtividade, "ATIVIDADE_CONCLUIDA")) {
-                String query = "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
+            if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, "ATIVIDADE_CONCLUIDA")) {
+                String query = "INSERT INTO usuario_progresso (usuario_email, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
                 try (Connection conn = databaseConn.connect();
                      PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setLong(1, idUsuario);
+                    stmt.setString(1, usuarioEmail);
                     stmt.setInt(2, idAula);
-                    stmt.setInt(3, idAtividade);
+                    stmt.setInt(3, idAtividadeAtiva); // Salva o ID correspondente do livro (1 a 5)
                     stmt.executeUpdate();
                 }
             }
@@ -228,41 +197,14 @@ public class AtividadeQuestaoController {
         }
     }
 
-    private boolean checarProgressoExiste(long idUsuario, int idAula, int idAtividade, String tipoConclusao) throws SQLException {
-        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = ?";
-        try (Connection conn = databaseConn.connect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setLong(1, idUsuario);
-            stmt.setInt(2, idAula);
-            stmt.setInt(3, idAtividade);
-            stmt.setString(4, tipoConclusao);
-            try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next() && rs.getInt(1) > 0;
-            }
-        }
-    }
-
-    private long obterIdUsuario(String email) throws SQLException {
-        String query = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+    private boolean checarProgressoExiste(String email, int idAula, int idAtividade, String tipoConclusao) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE usuario_email = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = ?";
         try (Connection conn = databaseConn.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getLong("pkIdUsuario");
-                }
-            }
-        }
-        return -1;
-    }
-
-    private boolean checarProgressoExiste(long idUsuario, int idAula, String tipoConclusao) throws SQLException {
-        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE id_usuario = ? AND id_aula = ? AND tipo_conclusao = ?";
-        try (Connection conn = databaseConn.connect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setLong(1, idUsuario);
             stmt.setInt(2, idAula);
-            stmt.setString(3, tipoConclusao);
+            stmt.setInt(3, idAtividade);
+            stmt.setString(4, tipoConclusao);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next() && rs.getInt(1) > 0;
             }
@@ -276,7 +218,8 @@ public class AtividadeQuestaoController {
             Parent root = loader.load();
             
             VideoAulaController controller = loader.getController();
-            controller.setUsuarioEmail(usuarioEmail);
+            controller.setUsuarioEmail(usuarioEmail); // PROPAGA O EMAIL DE VOLTA!
+            controller.setTituloAula("Introdução ao uso de IA e suas aplicações");
 
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {

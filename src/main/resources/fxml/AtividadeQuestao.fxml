@@ -52,7 +52,7 @@
                                -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;
                                -fx-pref-height: 54px;"/>
 
-                <!-- Área de Feedback -->
+                <!-- Área de Feedback (oculta inicialmente) -->
                 <VBox fx:id="areaFeedback" spacing="14.0" visible="false" managed="false"
                       style="-fx-background-color: #F8FAFC; -fx-background-radius: 20; -fx-padding: 20;">
 
@@ -67,12 +67,12 @@
                         </VBox>
                     </HBox>
 
-                    <!-- Mascote de Feedback Dinâmico do Figma -->
+                    <!-- Mascote -->
                     <HBox alignment="CENTER">
                         <StackPane>
                             <children>
                                 <ImageView fx:id="imgMascote" fitWidth="120.0" fitHeight="150.0" preserveRatio="true"/>
-                                <Label fx:id="labelMascote" text="🦉" style="-fx-font-size: 64px;"/> <!-- Placeholder em Emoji -->
+                                <Label fx:id="labelMascote" text="🦉" style="-fx-font-size: 64px;"/>
                             </children>
                         </StackPane>
                     </HBox>
