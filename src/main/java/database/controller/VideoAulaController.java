@@ -316,7 +316,7 @@ public class VideoAulaController {
       }
 
       if (!checarProgressoExiste(usuarioEmail, idAula, "VIDEO_ASSISTIDO")) {
-        String query = "INSERT INTO usuario_progresso (usuario_email, id_aula, tipo_conclusao) VALUES (?, ?, 'VIDEO_ASSISTIDO')";
+        String query = "INSERT INTO usuario_progresso (usuario_email, id_aula, tipo_conclusao) VALUES (?, ?, ?, 'VIDEO_ASSISTIDO')";
         try (Connection conn = databaseConn.connect();
             PreparedStatement stmt = conn.prepareStatement(query)) {
           stmt.setString(1, usuarioEmail);
