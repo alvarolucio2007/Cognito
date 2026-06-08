@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.media.MediaView?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="database.controller.VideoAulaController"
@@ -32,12 +33,20 @@
                 <!-- Container do Vídeo Player Simulável -->
                 <VBox spacing="10.0" style="-fx-background-color: #E2E8F0; -fx-background-radius: 20; -fx-padding: 15;">
                     <!-- Área Física do Vídeo -->
-                    <StackPane prefHeight="220.0" style="-fx-background-color: #0F172A; -fx-background-radius: 15; -fx-overflow: hidden;">
-                        <children>
-                            <ImageView fx:id="videoPlaceholder" fitWidth="360.0" fitHeight="220.0" preserveRatio="false"/>
-                            <Label fx:id="statusVideoLabel" text="Vídeo Pausado" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-                        </children>
-                    </StackPane>
+                <StackPane prefHeight="220.0" style="-fx-background-color: #0F172A; -fx-background-radius: 15; -fx-overflow: hidden;">
+                    <children>
+                        <MediaView fx:id="videoPlayer" fitWidth="360.0" fitHeight="220.0" preserveRatio="false"/>
+                        <Label fx:id="statusVideoLabel" text="Vídeo Pausado" style="-fx-text-fill: white; -fx-font-size: 16px;" visible="false"/>
+                    </children>
+                    <Button text="⛶" onAction="#abrirTelaCheia"
+                        style="-fx-background-color: rgba(0,0,0,0.5); -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8; -fx-cursor: hand;"
+                        prefWidth="32.0" prefHeight="32.0"
+                        StackPane.alignment="BOTTOM_RIGHT">
+                    <StackPane.margin>
+                        <Insets bottom="8.0" right="8.0"/>
+                    </StackPane.margin>
+        </Button>
+                </StackPane>
 
                     <!-- Controles de Reprodução -->
                     <HBox alignment="CENTER" spacing="15.0">
