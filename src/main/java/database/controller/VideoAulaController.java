@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.KeyFrame;
@@ -282,12 +283,17 @@ public class VideoAulaController {
             idAula = 3;
         }
 
+        // Lógica de Bloqueio Progressivo no Card de Vídeo
         if (idAtividade > 1) {
             try {
                 boolean anteriorConcluido = checarProgressoAtividadeExiste(usuarioEmail, idAula, idAtividade - 1);
                 if (!anteriorConcluido) {
-                    statusVideoLabel.setText("🔒 Conclua a atividade " + (idAtividade - 1) + " primeiro!");
-                    statusVideoLabel.setVisible(true);
+                    // Eu criei um aviso de diálogo nativo elegante para orientar o idoso de forma clara
+                    Alert alerta = new Alert(Alert.AlertType.WARNING);
+                    alerta.setTitle("Atividade Bloqueada");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("🔒 Conclua a atividade " + (idAtividade - 1) + " primeiro para liberar este conteúdo!");
+                    alerta.showAndWait();
                     return;
                 }
             } catch (SQLException e) {
@@ -358,7 +364,6 @@ public class VideoAulaController {
         botaoPlayPause.setText("⏸ Pause");
     }
 
-    // ALTERADOS PARA PUBLIC:
     @FXML public void abrirAtividade2() {}
     @FXML public void abrirAvaliacao1() {}
     @FXML public void abrirAvaliacao2() {}

@@ -19,6 +19,7 @@
 
         <!-- Barra do Topo -->
         <HBox alignment="CENTER" spacing="0">
+            <!-- Botão de Perfil com Fundo em Círculo Branco -->
             <Button fx:id="botaoPerfil" onAction="#irParaPerfil" prefWidth="44.0" prefHeight="44.0"
                     style="-fx-background-color: #FFFFFF; -fx-background-radius: 22; -fx-cursor: hand;">
                 <graphic>
@@ -32,6 +33,7 @@
             
             <Region HBox.hgrow="ALWAYS" />
             
+            <!-- Logo Cognito em Imagem Real -->
             <ImageView fitWidth="120.0" fitHeight="30.0" preserveRatio="true">
                 <image>
                     <Image url="@/images/logo_principal.png"/>
@@ -40,6 +42,7 @@
             
             <Region HBox.hgrow="ALWAYS" />
             
+            <!-- Botão de Configurações com Imagem Real -->
             <Button onAction="#irParaConfiguracoes" prefWidth="44.0" prefHeight="44.0"
                     style="-fx-background-color: transparent; -fx-cursor: hand;">
                 <graphic>
@@ -52,10 +55,10 @@
             </Button>
         </HBox>
 
-        <!-- Campo de Pesquisa -->
+        <!-- Campo de Pesquisa (Vinculado ao campoPesquisa) -->
         <HBox alignment="CENTER_LEFT" spacing="10.0" 
               style="-fx-background-color: white; -fx-background-radius: 19; -fx-padding: 8 15 8 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 4);">
-            <TextField promptText="Pesquisar Módulos" HBox.hgrow="ALWAYS"
+            <TextField fx:id="campoPesquisa" promptText="Pesquisar Módulos" HBox.hgrow="ALWAYS"
                        style="-fx-background-color: transparent; -fx-prompt-text-fill: #888888; -fx-text-fill: #333333; -fx-font-size: 15px; -fx-padding: 0;"/>
             <ImageView fitWidth="28.0" fitHeight="28.0" preserveRatio="true">
                 <image>
@@ -74,6 +77,7 @@
             <content>
                 <VBox spacing="30.0" style="-fx-background-color: white; -fx-padding: 20 24 120 24;">
                     
+                    <!-- Card 1 (Introdução ao uso de IA e suas aplicações) -->
                     <VBox fx:id="cardAula1" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
                         <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
@@ -93,6 +97,7 @@
                         </HBox>
                     </VBox>
 
+                    <!-- Card 2 (Atuação prática real com o uso de IA) -->
                     <VBox fx:id="cardAula2" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
                         <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
@@ -112,6 +117,7 @@
                         </HBox>
                     </VBox>
 
+                    <!-- Card 3 (Uso de IA e tecnologia vestível) -->
                     <VBox fx:id="cardAula3" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
                         <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
                             <children>
@@ -135,7 +141,7 @@
             </content>
         </ScrollPane>
 
-        <!-- ABA 2: scrollAtividades (A Trilha Gamificada Ordenada de Baixo para Cima) -->
+        <!-- ABA 2: scrollAtividades (A Trilha Gamificada) -->
         <ScrollPane fx:id="scrollAtividades" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
                     visible="false" managed="false"
                     style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
@@ -148,7 +154,7 @@
                                   promptText="Selecionar Módulo que Deseja Exercitar"
                                   style="-fx-background-color: rgba(53, 73, 205, 0.15); -fx-background-radius: 20; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand;"/>
 
-                        <!-- Estrela Tridimensional de Progresso Real (Avaliação do Topo) -->
+                        <!-- Estrela de Progresso -->
                         <Button fx:id="btnEstrelaAvaliacao" onAction="#abrirEstrelaAvaliacao" layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0"
                                 style="-fx-background-color: transparent; -fx-cursor: hand;">
                             <graphic>
@@ -160,7 +166,7 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 5 (Figma: top 414px, left 220px) -->
+                        <!-- Livro 5 -->
                         <Button fx:id="btnLivro5" onAction="#abrirLivro5" layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
@@ -172,7 +178,7 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 4 (Figma: top 489px, left 141px) -->
+                        <!-- Livro 4 -->
                         <Button fx:id="btnLivro4" onAction="#abrirLivro4" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
@@ -184,7 +190,7 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 3 (Figma: top 573px, left 76px) -->
+                        <!-- Livro 3 -->
                         <Button fx:id="btnLivro3" onAction="#abrirLivro3" layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
@@ -196,7 +202,7 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 2 (Figma: top 671px, left 105px) -->
+                        <!-- Livro 2 -->
                         <Button fx:id="btnLivro2" onAction="#abrirLivro2" layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
@@ -208,7 +214,7 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 1 (Figma: top 755px, left 164px) -> O PONTO DE PARTIDA REAL DE BAIXO PARA CIMA -->
+                        <!-- Livro 1 (Inicia a atividade 1) -->
                         <Button fx:id="btnLivro1" onAction="#abrirLivro1" layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>

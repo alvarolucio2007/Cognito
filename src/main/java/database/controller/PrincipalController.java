@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
@@ -20,6 +21,7 @@ import javafx.event.ActionEvent;
 public class PrincipalController {
 
     @FXML private Button botaoPerfil;
+    @FXML private TextField campoPesquisa;
     
     // Controles de Abas FXML
     @FXML private ScrollPane scrollVideoAulas;
@@ -37,6 +39,11 @@ public class PrincipalController {
     @FXML private Button btnLivro5;
     @FXML private Button btnEstrelaAvaliacao;
     
+    // Cards de Vídeo Aulas
+    @FXML private VBox cardAula1;
+    @FXML private VBox cardAula2;
+    @FXML private VBox cardAula3;
+    
     // Rótulos de Estatísticas
     @FXML private Label labelAulas1;
     @FXML private Label labelAvaliacoes1;
@@ -46,23 +53,55 @@ public class PrincipalController {
     @FXML private Label labelAvaliacoes3;
 
     private String usuarioEmail;
-    private String moduloSelecionado = "Geral"; // Módulo selecionado no ComboBox (Memória por padrão)
+    private String moduloSelecionado = "Introdução ao uso de IA e suas aplicações";
 
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
         carregarEstatisticasUsuario(); 
-        atualizarVisualTrilha(); // Carrega o bloqueio ou liberação das cores dos livros
+        atualizarVisualTrilha(); 
     }
 
     @FXML
     public void initialize() {
+        // Inicializa o ComboBox de Atividades com os nomes exatos das nossas trilhas
         if (comboModulos != null) {
-            comboModulos.getItems().addAll("Memória", "Atenção", "Lógica", "Linguagem");
-            comboModulos.getSelectionModel().select("Memória"); // Define Memória como padrão de partida
+            comboModulos.getItems().addAll(
+                "Introdução ao uso de IA e suas aplicações", 
+                "Atuação prática real com o uso de IA", 
+                "Uso de IA e tecnologia vestível"
+            );
+            comboModulos.getSelectionModel().select("Introdução ao uso de IA e suas aplicações");
+        }
+
+        // Eu configurei a barra de pesquisa para filtrar os cards dinamicamente em tempo real
+        if (campoPesquisa != null) {
+            campoPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
+                filtrarCardsAulas(newValue);
+            });
         }
     }
 
-    // Ação acionada quando o idoso muda a categoria do ComboBox
+    private void filtrarCardsAulas(String busca) {
+        if (busca == null || busca.trim().isEmpty()) {
+            mostrarCard(cardAula1, true);
+            mostrarCard(cardAula2, true);
+            mostrarCard(cardAula3, true);
+            return;
+        }
+
+        String lowerBusca = busca.toLowerCase().trim();
+        mostrarCard(cardAula1, "introdução ao uso de ia e suas aplicações".contains(lowerBusca));
+        mostrarCard(cardAula2, "atuação prática real com o uso de ia".contains(lowerBusca));
+        mostrarCard(cardAula3, "uso de ia e tecnologia vestível".contains(lowerBusca));
+    }
+
+    private void mostrarCard(Node card, boolean visivel) {
+        if (card != null) {
+            card.setVisible(visivel);
+            card.setManaged(visivel);
+        }
+    }
+
     @FXML
     public void selecionarModuloAction() {
         String selecionado = comboModulos.getSelectionModel().getSelectedItem();
@@ -78,11 +117,9 @@ public class PrincipalController {
         try {
             int idAula = obterIdModuloPorNome(moduloSelecionado);
             
-            // Busca do banco quantas atividades (livros) o idoso concluiu no módulo ativo
             int atividadesConcluidas = obterContagemProgresso(usuarioEmail, idAula, "ATIVIDADE_CONCLUIDA");
             int avaliacoesConcluidas = obterContagemProgresso(usuarioEmail, idAula, "AVALIACAO_CONCLUIDA");
             
-            // Atualiza dinamicamente as estatísticas baseada no módulo ativo
             labelAulas1.setText("Atividades feitas: " + atividadesConcluidas + "/5");
             labelAvaliacoes1.setText("Avaliações feitas: " + avaliacoesConcluidas + "/2");
 
@@ -92,37 +129,26 @@ public class PrincipalController {
     }
 
     private int obterIdModuloPorNome(String nomeModulo) {
-        if ("Atenção".equalsIgnoreCase(nomeModulo)) return 2;
-        if ("Lógica".equalsIgnoreCase(nomeModulo)) return 3;
-        if ("Linguagem".equalsIgnoreCase(nomeModulo)) return 4;
-        return 1; // "Memória" / "Geral"
+        if ("Atuação prática real com o uso de IA".equalsIgnoreCase(nomeModulo)) return 2;
+        if ("Uso de IA e tecnologia vestível".equalsIgnoreCase(nomeModulo)) return 3;
+        return 1; // "Introdução ao uso de IA e suas aplicações"
     }
 
-    // Gerencia o bloqueio e a cor de cada livro de forma progressiva
     private void atualizarVisualTrilha() {
         try {
             int idAula = obterIdModuloPorNome(moduloSelecionado);
             
-            // Verifica no banco quais livros o usuário já concluiu neste módulo
             boolean livro1Concluido = checarProgressoAtividade(usuarioEmail, idAula, 1);
             boolean livro2Concluido = checarProgressoAtividade(usuarioEmail, idAula, 2);
             boolean livro3Concluido = checarProgressoAtividade(usuarioEmail, idAula, 3);
             boolean livro4Concluido = checarProgressoAtividade(usuarioEmail, idAula, 4);
             boolean livro5Concluido = checarProgressoAtividade(usuarioEmail, idAula, 5);
 
-            // Livro 1 sempre liberado por ser o ponto de partida
             desbloquearBotaoTrilha(btnLivro1);
-
-            // Livro 2 só libera se o 1 estiver concluído
             atualizarEstadoBotao(btnLivro2, livro1Concluido);
-            // Livro 3 só libera se o 2 estiver concluído
             atualizarEstadoBotao(btnLivro3, livro2Concluido);
-            // Livro 4 só libera se o 3 estiver concluído
             atualizarEstadoBotao(btnLivro4, livro3Concluido);
-            // Livro 5 só libera se o 4 estiver concluído
             atualizarEstadoBotao(btnLivro5, livro4Concluido);
-            
-            // Estrela (Avaliação) só libera se o Livro 5 estiver concluído
             atualizarEstadoBotao(btnEstrelaAvaliacao, livro5Concluido);
 
         } catch (SQLException e) {
@@ -139,14 +165,14 @@ public class PrincipalController {
     }
 
     private void bloquearBotaoTrilha(Button botao) {
-        botao.setOpacity(0.4); // Deixa o botão cinza/transparente para indicar bloqueio
+        botao.setOpacity(0.4); 
     }
 
     private void desbloquearBotaoTrilha(Button botao) {
-        botao.setOpacity(1.0); // Deixa o botão com as cores normais
+        botao.setOpacity(1.0); 
     }
 
-    // Cliques em cada um dos livros da trilha (Verificando progressão)
+    // Cliques nos livros (Mapeados de baixo para cima perfeitamente de acordo com o Y físico do figma)
     @FXML public void abrirLivro1(ActionEvent event) { iniciarAtividadeSeLiberada(event, 1, true); }
     @FXML public void abrirLivro2(ActionEvent event) { iniciarAtividadeSeLiberada(event, 2, checarLivroAnteriorLiberado(1)); }
     @FXML public void abrirLivro3(ActionEvent event) { iniciarAtividadeSeLiberada(event, 3, checarLivroAnteriorLiberado(2)); }
@@ -173,7 +199,7 @@ public class PrincipalController {
             return;
         }
         
-        labelAvisoTrilha.setText(""); // Limpa o aviso
+        labelAvisoTrilha.setText(""); 
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AtividadeQuestao.fxml"));
@@ -181,7 +207,6 @@ public class PrincipalController {
             
             AtividadeQuestaoController controller = loader.getController();
             controller.setUsuarioEmail(usuarioEmail);
-            // Configura dinamicamente qual módulo e qual livro carregar no questionário
             controller.configurarAtividade(moduloSelecionado, idAtividade);
 
             ((Node) event.getSource()).getScene().setRoot(root);
@@ -249,14 +274,11 @@ public class PrincipalController {
             String idCard = origem.getId(); 
 
             String tituloSelecionado = "Introdução ao uso de IA e suas aplicações";
-            int idModulo = 1;
             
             if ("cardAula2".equals(idCard)) {
                 tituloSelecionado = "Atuação prática real com o uso de IA";
-                idModulo = 2;
             } else if ("cardAula3".equals(idCard)) {
                 tituloSelecionado = "Uso de IA e tecnologia vestível";
-                idModulo = 3;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));

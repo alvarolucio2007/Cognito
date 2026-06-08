@@ -156,15 +156,15 @@ public class AtividadeQuestaoController {
         if (questaoAtual < questoes.size() - 1) {
             carregarQuestao(questaoAtual + 1);
         } else {
-            // Eu gravo o progresso passando o ID dinâmico do livro que foi concluído!
             salvarProgressoAtividade(); 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/VideoAula.fxml"));
                 Parent root = loader.load();
                 
                 VideoAulaController controller = loader.getController();
-                controller.setUsuarioEmail(usuarioEmail); // PROPAGA O EMAIL DE VOLTA!
-                controller.setTituloAula("Introdução ao uso de IA e suas aplicações");
+                controller.setUsuarioEmail(usuarioEmail); 
+                // Eu retorno passando o título correto mapeado para o módulo de onde ele partiu
+                controller.setTituloAula(obterTituloAulaPorModulo(moduloAtivo)); 
 
                 ((Node) event.getSource()).getScene().setRoot(root);
             } catch (Exception e) {
@@ -176,7 +176,6 @@ public class AtividadeQuestaoController {
     private void salvarProgressoAtividade() {
         if (usuarioEmail == null) return;
         try {
-            // Eu mudei de estático para dinâmico: identifica qual o ID de módulo real (1, 2 ou 3)
             int idAula = obterIdModuloPorNome(moduloAtivo); 
 
             if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, "ATIVIDADE_CONCLUIDA")) {
@@ -185,7 +184,7 @@ public class AtividadeQuestaoController {
                      PreparedStatement stmt = conn.prepareStatement(query)) {
                     stmt.setString(1, usuarioEmail);
                     stmt.setInt(2, idAula);
-                    stmt.setInt(3, idAtividadeAtiva); // Salva o ID correspondente do livro (1 a 5)
+                    stmt.setInt(3, idAtividadeAtiva); 
                     stmt.executeUpdate();
                 }
             }
@@ -198,7 +197,17 @@ public class AtividadeQuestaoController {
         if ("Atenção".equalsIgnoreCase(nomeModulo)) return 2;
         if ("Lógica".equalsIgnoreCase(nomeModulo)) return 3;
         if ("Linguagem".equalsIgnoreCase(nomeModulo)) return 4;
-        return 1; // "Memória" / "Geral"
+        return 1; 
+    }
+
+    // Eu fiz esse retorno dinâmico para garantir que ao voltar do quiz ele caia na vídeo aula certa
+    private String obterTituloAulaPorModulo(String modulo) {
+        if ("Atenção".equalsIgnoreCase(modulo)) {
+            return "Atuação prática real com o uso de IA";
+        } else if ("Lógica".equalsIgnoreCase(modulo)) {
+            return "Uso de IA e tecnologia vestível";
+        }
+        return "Introdução ao uso de IA e suas aplicações";
     }
 
     private boolean checarProgressoExiste(String email, int idAula, int idAtividade, String tipoConclusao) throws SQLException {
@@ -222,8 +231,9 @@ public class AtividadeQuestaoController {
             Parent root = loader.load();
             
             VideoAulaController controller = loader.getController();
-            controller.setUsuarioEmail(usuarioEmail); // PROPAGA O EMAIL DE VOLTA!
-            controller.setTituloAula("Introdução ao uso de IA e suas aplicações");
+            controller.setUsuarioEmail(usuarioEmail); 
+            // Retorna carregando dinamicamente o título do módulo correspondente
+            controller.setTituloAula(obterTituloAulaPorModulo(moduloAtivo)); 
 
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {
