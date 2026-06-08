@@ -11,6 +11,3 @@ CREATE TABLE usuario_progresso (
 
 ALTER TABLE usuario_progresso ADD COLUMN id_atividade INT;
 
--- conceder as permissões necessárias para o desenvolvedor durante o período de testes.
-GRANT ALL PRIVILEGES ON TABLE usuario_progresso TO cognito_user;
-GRANT ALL PRIVILEGES ON SEQUENCE usuario_progresso_id_progresso_seq TO cognito_user;
