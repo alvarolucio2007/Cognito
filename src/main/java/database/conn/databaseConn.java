@@ -21,7 +21,7 @@ public class databaseConn {
       // Connect to PostgreSQL database
       conn = DriverManager.getConnection(url, user, password);
 
-      // Check if connection was successful
+      // check if connection was successful
       if (conn != null) {
         System.out.println("Conectado ao banco de dados com sucesso.");
       } else {
