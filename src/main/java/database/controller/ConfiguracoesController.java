@@ -1,7 +1,3 @@
-// Eu atualizei esse controlador usando as funções que o carlos de tinha criado no outro controle
-// que eu achei interessante, que de tipo salvar as configurações de cada usuário
-// e eu tinha esquecido desse detalhe
-
 package database.controller;
 
 import java.sql.Connection;
@@ -38,7 +34,7 @@ public class ConfiguracoesController {
 
     public void setUsuarioEmail(String email) {
         this.usuarioEmail = email;
-        carregarConfiguracoesAnteriores(); // Carrega os dados reais usando a classe do Álvaro
+        carregarConfiguracoesAnteriores(); 
     }
 
     @FXML
@@ -47,7 +43,7 @@ public class ConfiguracoesController {
             comboIdioma.getItems().addAll("Português - Brasil", "English", "Español");
         }
 
-        // validação de Regex do carlos para aceitar apenas números decimais
+        // Validaçãopra aceitar apenas floats/decimais
         sensibilidadeToqueField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*(\\.\\d*)?")) {
                 sensibilidadeToqueField.setText(oldValue);
@@ -60,11 +56,10 @@ public class ConfiguracoesController {
             idUsuarioAtivo = obterIdUsuario(usuarioEmail);
             if (idUsuarioAtivo == -1) return;
 
-            // Eu consumo o método de busca da classe do Álvaro para ler as configurações do banco
+            // Busco as configurações consumindo a classe de modelo do Álvaro
             Configuracao configSalva = Configuracao.buscarPorUsuario(idUsuarioAtivo);
             
             if (configSalva != null) {
-                // Preenche a interface com os dados reais salvos no Postgres
                 altoContrasteField.setSelected(configSalva.isConfiguracaoContraste());
                 textoAmpliadoField.setSelected(configSalva.isConfiguracaoTextoAmpliado());
                 sensibilidadeToqueField.setText(String.valueOf(configSalva.getConfiguracaoSensibilidade()));
@@ -86,10 +81,10 @@ public class ConfiguracoesController {
             return;
         }
 
-        // eu instancio a classe de modelo do carlos com os novos dados da tela
+        // instancio o modelo do Álvaro
         Configuracao novaConfig = new Configuracao(null, altoContraste, textoAmpliado, sensibilidadeToque, modoVoz, idUsuarioAtivo);
         
-        // Eu chamo o método do carlos para persistir os dados no PostgreSQL
+        // Chamada do método de persistência do Álvaro
         boolean sucesso = novaConfig.criar(novaConfig);
 
         if (sucesso) {
@@ -111,14 +106,15 @@ public class ConfiguracoesController {
         }
     }
 
+    // método de busca dinâmico por índice de coluna (Impedindo o erro do pkIdUsuario)
     private long obterIdUsuario(String email) throws SQLException {
-        String query = "SELECT \"pkIdUsuario\" FROM usuario WHERE usuario_email = ?";
+        String query = "SELECT * FROM usuario WHERE usuario_email = ?";
         try (Connection conn = databaseConn.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getLong("pkIdUsuario");
+                    return rs.getLong(1); // lê a chave primária de forma segura pela posição (índice 1)
                 }
             }
         }

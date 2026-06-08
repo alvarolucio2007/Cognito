@@ -4,18 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import database.conn.databaseConn;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.Node;
-import javafx.event.ActionEvent;
 
 public class PrincipalController {
 
@@ -150,7 +150,7 @@ public class PrincipalController {
     }
 
     @FXML
-    private void sair() {
+    public void sair() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
             botaoPerfil.getScene().setRoot(root);
@@ -159,8 +159,9 @@ public class PrincipalController {
         }
     }
 
+    // EU ALTEREI ESTE MÉTODO PARA PUBLIC:
     @FXML
-    private void irParaConfiguracoes(ActionEvent event) {
+    public void irParaConfiguracoes(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Configuracoes.fxml"));
             Parent root = loader.load();
@@ -174,8 +175,9 @@ public class PrincipalController {
         }
     }
 
+    // EU ALTEREI ESTE MÉTODO PARA PUBLIC:
     @FXML
-    private void irParaPerfil(ActionEvent event) {
+    public void irParaPerfil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Perfil.fxml"));
             Parent root = loader.load();
