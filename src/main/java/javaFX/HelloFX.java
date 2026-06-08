@@ -16,6 +16,7 @@ public class HelloFX extends Application {
     try {
       Connection conn = databaseConn.connect();
       databaseConn.migrate(conn);
+      databaseConn.rodarSeedInicial(conn);
       stage.setResizable(false);
       stage.setTitle("Cognito");
       stage.setWidth(440);

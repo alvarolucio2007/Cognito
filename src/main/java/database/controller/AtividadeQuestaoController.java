@@ -188,17 +188,42 @@ public class AtividadeQuestaoController {
   private void salvarProgressoAtividade() {
     if (usuarioEmail == null)
       return;
+
     try {
       int idAula = obterIdModuloPorNome(moduloAtivo);
 
+      // 1. IMPORTANTE: Atualize o método 'checarProgressoExiste' se ele ainda usar o
+      // email!
       if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, "ATIVIDADE_CONCLUIDA")) {
-        String query = "INSERT INTO usuario_progresso (usuario_email, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
-        try (Connection conn = databaseConn.connect();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
-          stmt.setString(1, usuarioEmail);
-          stmt.setInt(2, idAula);
-          stmt.setInt(3, idAtividadeAtiva);
-          stmt.executeUpdate();
+
+        String queryBuscaId = "SELECT PK_id_usuario FROM usuario WHERE usuario_email = ?";
+        String queryInsert = "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
+
+        try (Connection conn = databaseConn.connect()) {
+          int idUsuario = -1;
+
+          // Passo 1: Busca o ID do usuário baseado no email
+          try (PreparedStatement stmtBusca = conn.prepareStatement(queryBuscaId)) {
+            stmtBusca.setString(1, usuarioEmail);
+            try (ResultSet rs = stmtBusca.executeQuery()) {
+              if (rs.next()) {
+                idUsuario = rs.getInt("PK_id_usuario");
+              }
+            }
+          }
+
+          // Passo 2: Se achou o usuário, faz o INSERT usando o idUsuario
+          if (idUsuario != -1) {
+            try (PreparedStatement stmtInsert = conn.prepareStatement(queryInsert)) {
+              stmtInsert.setInt(1, idUsuario);
+              stmtInsert.setInt(2, idAula);
+              stmtInsert.setInt(3, idAtividadeAtiva);
+              stmtInsert.executeUpdate();
+              System.out.println("Progresso de atividade salvo com sucesso para o usuário ID: " + idUsuario);
+            }
+          } else {
+            System.out.println("Aviso: Usuário com o e-mail " + usuarioEmail + " não foi encontrado no banco.");
+          }
         }
       }
     } catch (SQLException e) {
@@ -229,13 +254,25 @@ public class AtividadeQuestaoController {
 
   private boolean checarProgressoExiste(String email, int idAula, int idAtividade, String tipoConclusao)
       throws SQLException {
-    String query = "SELECT COUNT(*) FROM usuario_progresso WHERE usuario_email = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = ?";
+
+    // Usamos JOIN para conectar a tabela de progresso à tabela de usuário pelo ID
+    String query = """
+            SELECT COUNT(*)
+            FROM usuario_progresso up
+            JOIN usuario u ON up.id_usuario = u.PK_id_usuario
+            WHERE u.usuario_email = ?
+              AND up.id_aula = ?
+              AND up.id_atividade = ?
+              AND up.tipo_conclusao = ?
+        """;
+
     try (Connection conn = databaseConn.connect();
         PreparedStatement stmt = conn.prepareStatement(query)) {
       stmt.setString(1, email);
       stmt.setInt(2, idAula);
       stmt.setInt(3, idAtividade);
       stmt.setString(4, tipoConclusao);
+
       try (ResultSet rs = stmt.executeQuery()) {
         return rs.next() && rs.getInt(1) > 0;
       }
