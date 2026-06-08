@@ -9,7 +9,6 @@
       fx:controller="database.controller.AtividadeQuestaoController"
       style="-fx-background-color: white;"
       prefWidth="440.0" prefHeight="950.0" spacing="0">
-
     <!-- Cabeçalho -->
     <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
         <padding>
