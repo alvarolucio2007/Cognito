@@ -1,7 +1,5 @@
 package database.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import database.databaseModels.BancoQuestoes;
 
 public class AtividadeQuestaoController {
 
