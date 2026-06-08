@@ -4,26 +4,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import database.conn.databaseConn;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class VideoAulaController {
 
@@ -67,18 +67,30 @@ public class VideoAulaController {
 
     private void inicializarPlayerReal() {
         String nomeVideo = "aula_1.mp4";
+        String nomeImagem = "image-CardLesson01.png";
+
         if (tituloAula.contains("Atuação prática")) {
             nomeVideo = "aula_2.mp4";
+            nomeImagem = "image-CardLesson02.png";
         } else if (tituloAula.contains("tecnologia vestível")) {
             nomeVideo = "aula_3.mp4";
+            nomeImagem = "image-CardLesson03.png";
         }
 
         try {
-            // Eu restaurei o caminho para a pasta "video" no singular
+            var urlImagem = getClass().getResource("/images/" + nomeImagem);
+            if (urlImagem != null) {
+                videoPlaceholder.setImage(new Image(urlImagem.toExternalForm()));
+            }
+        } catch (Exception imgEx) {
+            System.out.println("Erro ao carregar imagem de capa: " + imgEx.getMessage());
+        }
+
+        try {
             var URLVideo = getClass().getResource("/video/" + nomeVideo);
             if (URLVideo == null) {
-                System.out.println("ERRO: " + nomeVideo + " não encontrado em resources/video/");
-                inicializarSimuladorPlayer(); // Reverte para o simulador se o arquivo faltar
+                System.out.println("ERRO: " + nomeVideo + " não encontrado em resources/video/. Revertendo para o simulador...");
+                inicializarSimuladorPlayer();
                 return;
             }
 
@@ -104,14 +116,20 @@ public class VideoAulaController {
                 }
             });
 
+            videoPlayer.setVisible(true);
+            videoPlaceholder.setVisible(false);
             statusVideoLabel.setVisible(false);
             System.out.println("Vídeo carregado com sucesso no player real: " + nomeVideo);
 
         } catch (Exception e) {
-            // SE HOUVER FALHA DE CODECS NO LINUX (MediaException), REVERTE AUTOMATICAMENTE PARA O SIMULADOR! (tive esse problema)
             System.out.println("Aviso: Falha ao carregar player nativo (falta de codecs GStreamer no Linux). Revertendo para o simulador...");
             statusVideoLabel.setText("Vídeo Simulável (Sem Codecs de Mídia)");
             statusVideoLabel.setVisible(true);
+            
+            videoPlaceholder.setImage(new Image(getClass().getResourceAsStream("/images/" + nomeImagem)));
+            videoPlaceholder.setVisible(true);
+            videoPlayer.setVisible(false);
+            
             inicializarSimuladorPlayer();
         }
     }
@@ -143,8 +161,7 @@ public class VideoAulaController {
     }
 
     @FXML
-    private void alternarPlayPause() {
-        // se o player real foi inicializado com sucesso, controla ele
+    public void alternarPlayPause() {
         if (mediaPlayer != null) {
             if (MediaPlayer.Status.PLAYING == mediaPlayer.getStatus()) {
                 mediaPlayer.pause();
@@ -156,9 +173,7 @@ public class VideoAulaController {
                 botaoPlayPause.setText("⏸ Pause");
                 statusVideoLabel.setVisible(false);
             }
-        } 
-        // Ss o player real falhou e o simulador está ativo, controla a Timeline
-        else if (timeline != null) {
+        } else if (timeline != null) {
             if (Timeline.Status.RUNNING == timeline.getStatus()) {
                 timeline.pause();
                 botaoPlayPause.setText("▶ Play");
@@ -173,15 +188,15 @@ public class VideoAulaController {
     }
 
     @FXML
-    private void voltar(ActionEvent event) {
+    public void voltar(ActionEvent event) {
         pararSimulacao();
         retornarParaPrincipal(event);
     }
 
     @FXML
-    private void salvarEVoltar(ActionEvent event) {
+    public void salvarEVoltar(ActionEvent event) {
         pararSimulacao();
-        salvarProgressoVideo();
+        salvarProgressoVideo(); 
         System.out.println("Progresso salvo para o usuário: " + usuarioEmail);
         retornarParaPrincipal(event);
     }
@@ -237,7 +252,7 @@ public class VideoAulaController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
             Parent root = loader.load();
-
+            
             PrincipalController controller = loader.getController();
             controller.setUsuarioEmail(usuarioEmail);
 
@@ -247,25 +262,68 @@ public class VideoAulaController {
         }
     }
 
-    @FXML
-    private void abrirAtividade1(ActionEvent event) {
+    @FXML public void abrirAtividade1(ActionEvent event) { abrirQuizDinamico(event, 1); }
+    @FXML public void abrirAtividade2(ActionEvent event) { abrirQuizDinamico(event, 2); }
+    @FXML public void abrirAtividade3(ActionEvent event) { abrirQuizDinamico(event, 3); }
+    @FXML public void abrirAtividade4(ActionEvent event) { abrirQuizDinamico(event, 4); }
+    @FXML public void abrirAtividade5(ActionEvent event) { abrirQuizDinamico(event, 5); }
+    @FXML public void abrirAvaliacao(ActionEvent event) { abrirQuizDinamico(event, 6); } 
+
+    private void abrirQuizDinamico(ActionEvent event, int idAtividade) {
         pararSimulacao();
+        
+        int idAula = 1;
+        String modulo = "Geral";
+        if (tituloAulaLabel.getText().contains("Atuação prática")) {
+            modulo = "Atenção";
+            idAula = 2;
+        } else if (tituloAulaLabel.getText().contains("tecnologia vestível")) {
+            modulo = "Lógica";
+            idAula = 3;
+        }
+
+        if (idAtividade > 1) {
+            try {
+                boolean anteriorConcluido = checarProgressoAtividadeExiste(usuarioEmail, idAula, idAtividade - 1);
+                if (!anteriorConcluido) {
+                    statusVideoLabel.setText("🔒 Conclua a atividade " + (idAtividade - 1) + " primeiro!");
+                    statusVideoLabel.setVisible(true);
+                    return;
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao verificar progresso: " + e.getMessage());
+            }
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AtividadeQuestao.fxml"));
             Parent root = loader.load();
 
             AtividadeQuestaoController controller = loader.getController();
             controller.setUsuarioEmail(usuarioEmail);
-            controller.configurarAtividade("Geral", 1);
+            controller.configurarAtividade(modulo, idAtividade); 
 
             ((Node) event.getSource()).getScene().setRoot(root);
         } catch (Exception e) {
-            System.out.println("Erro ao carregar Atividade 1: " + e.getMessage());
+            System.out.println("Erro ao carregar Atividade dinamicamente: " + e.getMessage());
+        }
+    }
+
+    private boolean checarProgressoAtividadeExiste(String email, int idAula, int idAtividade) throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario_progresso WHERE usuario_email = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = 'ATIVIDADE_CONCLUIDA'";
+        try (Connection conn = databaseConn.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setInt(2, idAula);
+            stmt.setInt(3, idAtividade);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
         }
     }
 
     @FXML
-    private void abrirTelaCheia() {
+    public void abrirTelaCheia() {
         if (mediaPlayer == null) return;
 
         mediaPlayer.pause();
@@ -300,8 +358,9 @@ public class VideoAulaController {
         botaoPlayPause.setText("⏸ Pause");
     }
 
-    @FXML private void abrirAtividade2() {}
-    @FXML private void abrirAvaliacao1() {}
-    @FXML private void abrirAvaliacao2() {}
-    @FXML private void emitirCertificado() {}
+    // ALTERADOS PARA PUBLIC:
+    @FXML public void abrirAtividade2() {}
+    @FXML public void abrirAvaliacao1() {}
+    @FXML public void abrirAvaliacao2() {}
+    @FXML public void emitirCertificado() {}
 }

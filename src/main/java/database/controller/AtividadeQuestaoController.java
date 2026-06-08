@@ -1,5 +1,7 @@
 package database.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,15 +39,10 @@ public class AtividadeQuestaoController {
     private int questaoAtual = 0;
     private Button alternativaSelecionada = null;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Eu retirei as perguntas daqui de dentro para não poluir o código.
-    // Agora o painel carrega as perguntas dinamicamente da classe 'BancoQuestoes.java'!
-    // ─────────────────────────────────────────────────────────────────────────
-    private List<BancoQuestoes.Questao> questoes;
-    private int idAtividadeAtiva = 1; // Guarda qual livro da trilha o idoso está jogando (1 a 5)
-    private String moduloAtivo = "Geral"; // Guarda o módulo selecionado no ComboBox
+    private List<BancoQuestoes.Questao> questoes; 
+    private int idAtividadeAtiva = 1; 
+    private String moduloAtivo = "Geral"; 
 
-    // Este método é chamado pelo painel anterior para setar dinamicamente qual livro foi aberto!
     public void configurarAtividade(String modulo, int idAtividade) {
         this.moduloAtivo = modulo;
         this.idAtividadeAtiva = idAtividade;
@@ -59,7 +56,6 @@ public class AtividadeQuestaoController {
 
     @FXML
     public void initialize() {
-        // Eu retirei a inicialização fixa daqui para que o método configurarAtividade() acima controle tudo.
     }
 
     private void carregarQuestao(int indice) {
@@ -180,7 +176,8 @@ public class AtividadeQuestaoController {
     private void salvarProgressoAtividade() {
         if (usuarioEmail == null) return;
         try {
-            int idAula = 1; 
+            // Eu mudei de estático para dinâmico: identifica qual o ID de módulo real (1, 2 ou 3)
+            int idAula = obterIdModuloPorNome(moduloAtivo); 
 
             if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, "ATIVIDADE_CONCLUIDA")) {
                 String query = "INSERT INTO usuario_progresso (usuario_email, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
@@ -195,6 +192,13 @@ public class AtividadeQuestaoController {
         } catch (SQLException e) {
             System.out.println("Erro ao salvar progresso de atividade: " + e.getMessage());
         }
+    }
+
+    private int obterIdModuloPorNome(String nomeModulo) {
+        if ("Atenção".equalsIgnoreCase(nomeModulo)) return 2;
+        if ("Lógica".equalsIgnoreCase(nomeModulo)) return 3;
+        if ("Linguagem".equalsIgnoreCase(nomeModulo)) return 4;
+        return 1; // "Memória" / "Geral"
     }
 
     private boolean checarProgressoExiste(String email, int idAula, int idAtividade, String tipoConclusao) throws SQLException {

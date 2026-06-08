@@ -89,7 +89,7 @@
                         <HBox>
                             <Label fx:id="labelAulas1" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Label fx:id="labelAvaliacoes1" text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Label fx:id="labelAvaliacoes1" text="Avaliações feitas: 0/1" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
                         </HBox>
                     </VBox>
 
@@ -135,7 +135,7 @@
             </content>
         </ScrollPane>
 
-        <!-- ABA 2: scrollAtividades (A Trilha Gamificada) -->
+        <!-- ABA 2: scrollAtividades (A Trilha Gamificada Ordenada de Baixo para Cima) -->
         <ScrollPane fx:id="scrollAtividades" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
                     visible="false" managed="false"
                     style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
@@ -144,23 +144,24 @@
                     <children>
                         
                         <!-- Dropdown de Módulos (ComboBox) -->
-                        <ComboBox fx:id="comboModulos" layoutX="24.0" layoutY="24.0" prefWidth="392.0" prefHeight="46.0"
+                        <ComboBox fx:id="comboModulos" onAction="#selecionarModuloAction" layoutX="24.0" layoutY="24.0" prefWidth="392.0" prefHeight="46.0"
                                   promptText="Selecionar Módulo que Deseja Exercitar"
                                   style="-fx-background-color: rgba(53, 73, 205, 0.15); -fx-background-radius: 20; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand;"/>
 
-                        <!-- Estrela Tridimensional de Progresso Real -->
-                        <StackPane layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0">
-                            <children>
+                        <!-- Estrela Tridimensional de Progresso Real (Avaliação do Topo) -->
+                        <Button fx:id="btnEstrelaAvaliacao" onAction="#abrirEstrelaAvaliacao" layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0"
+                                style="-fx-background-color: transparent; -fx-cursor: hand;">
+                            <graphic>
                                 <ImageView fitWidth="150.0" fitHeight="90.0" preserveRatio="true">
                                     <image>
                                         <Image url="@/images/star_icon.png"/>
                                     </image>
                                 </ImageView>
-                            </children>
-                        </StackPane>
+                            </graphic>
+                        </Button>
 
                         <!-- Livro 5 (Figma: top 414px, left 220px) -->
-                        <Button layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
+                        <Button fx:id="btnLivro5" onAction="#abrirLivro5" layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
                                 <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
@@ -171,8 +172,8 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 1 (Figma: top 489px, left 141px) -> ÚNICO CLICÁVEL POR SER O PONTO DE PARTIDA -->
-                        <Button onAction="#abrirTrilhaAtividade" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
+                        <!-- Livro 4 (Figma: top 489px, left 141px) -->
+                        <Button fx:id="btnLivro4" onAction="#abrirLivro4" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
                                 <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
@@ -183,8 +184,8 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 2 (Figma: top 573px, left 76px) -->
-                        <Button layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
+                        <!-- Livro 3 (Figma: top 573px, left 76px) -->
+                        <Button fx:id="btnLivro3" onAction="#abrirLivro3" layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
                                 <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
@@ -195,8 +196,8 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 3 (Figma: top 671px, left 105px) -->
-                        <Button layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
+                        <!-- Livro 2 (Figma: top 671px, left 105px) -->
+                        <Button fx:id="btnLivro2" onAction="#abrirLivro2" layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
                                 <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
@@ -207,8 +208,8 @@
                             </graphic>
                         </Button>
 
-                        <!-- Livro 4 (Figma: top 755px, left 164px) -->
-                        <Button layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
+                        <!-- Livro 1 (Figma: top 755px, left 164px) -> O PONTO DE PARTIDA REAL DE BAIXO PARA CIMA -->
+                        <Button fx:id="btnLivro1" onAction="#abrirLivro1" layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
                                 style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
                             <graphic>
                                 <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
@@ -218,13 +219,17 @@
                                 </ImageView>
                             </graphic>
                         </Button>
+
+                        <!-- Label de Aviso de Bloqueio da Trilha -->
+                        <Label fx:id="labelAvisoTrilha" layoutX="24.0" layoutY="660.0" prefWidth="392.0" alignment="CENTER"
+                               style="-fx-text-fill: #DC2626; -fx-font-size: 15px; -fx-font-weight: bold;" textAlignment="CENTER" wrapText="true"/>
 
                     </children>
                 </Pane>
             </content>
         </ScrollPane>
 
-        <!-- Menu Flutuante de Seleção (Abas) -->
+        <!-- Menu Flutuante de Seleção (Alternador de Abas) -->
         <VBox alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false">
             <padding>
                 <Insets bottom="30.0"/>
