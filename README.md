@@ -1,1 +1,247 @@
-# Cognito
+# 📚 Cognito
+
+## 👥 Integrantes do Grupo
+
+| Nome | Função |
+|------|--------|
+| Carlos Gabriel Monteiro de Sousa
+| Alvaro Lúcio Coelho Mosinho
+| Leticia de Oliveira Soares Leandro
+| João Eduardo de Soares Pessoa
+| Pedro Henrique Silva Rufino
+| Artur França de Paula Araújo
+
+---
+
+## 📖 Apresentação do Sistema
+
+O **Cognito** é uma aplicação desktop desenvolvida em **Java com JavaFX**, voltada para [PREENCHER — ex: aprendizado de idiomas / ensino adaptativo / etc].
+
+O sistema permite que usuários:
+
+- [PREENCHER — ex: realizem testes de nivelamento]
+- [PREENCHER — ex: acessem aulas organizadas por nível]
+- [PREENCHER — ex: respondam atividades interativas]
+- Personalizem sua experiência através de configurações de acessibilidade
+
+---
+
+## 🗄️ Diagrama de Entidade Relacionamento (DER)
+
+```mermaid
+erDiagram
+    USUARIO {
+        serial PK_id_usuario PK
+        varchar usuario_nome
+        varchar usuario_email
+        varchar usuario_senha
+        timestamp usuario_data_nascimento
+    }
+
+    CONFIGURACAO {
+        serial PK_id_configuracao PK
+        boolean configuracao_alto_contraste
+        boolean configuracao_texto_ampliado
+        float configuracao_sensibilidade_toque
+        boolean configuracao_modo_voz
+        int FK_id_usuario FK
+    }
+
+    TESTE_NIVELAMENTO {
+        serial PK_id_teste_nivelamento PK
+        varchar teste_nivelamento_nivel_detectado
+        timestamp teste_nivelamento_data_realizacao
+        int FK_id_usuario FK
+    }
+
+    AULA {
+        serial PK_id_aula PK
+        varchar aula_titulo
+        text aula_descricao
+        varchar aula_nivel
+    }
+
+    ATIVIDADE {
+        serial PK_id_atividade PK
+        text atividade_pergunta
+        text atividade_resposta
+        varchar atividade_tipo
+        int FK_id_aula FK
+    }
+
+    USUARIO ||--o{ CONFIGURACAO : "possui"
+    USUARIO ||--o{ TESTE_NIVELAMENTO : "realiza"
+    AULA ||--o{ ATIVIDADE : "contém"
+```
+
+---
+
+## 🧩 Diagrama de Componentes
+
+```mermaid
+graph TD
+    subgraph View["🖥️ View (JavaFX + FXML)"]
+        V1[TelaLogin.fxml]
+        V2[TelaCadastro.fxml]
+        V3[TelaAula.fxml]
+        V4[TelaConfiguracao.fxml]
+    end
+
+    subgraph Controller["⚙️ Controllers"]
+        C1[UsuarioController]
+        C2[ConfiguracoesController]
+        C3[AulaController]
+        C4[AtividadeController]
+    end
+
+    subgraph Model["📦 Models"]
+        M1[Usuario]
+        M2[Configuracoes]
+        M3[Aula]
+        M4[Atividade]
+        M5[TesteNivelamento]
+    end
+
+    subgraph DB["🗄️ Banco de Dados"]
+        D1[databaseConn]
+        D2[(PostgreSQL)]
+    end
+
+    View --> Controller
+    Controller --> Model
+    Model --> D1
+    D1 --> D2
+```
+
+---
+
+## ✅ Checklist de Inspeção de Qualidade
+
+### Código
+- [ ] Nomenclatura de classes, métodos e variáveis está padronizada
+- [ ] Todos os métodos possuem responsabilidade única
+- [ ] Não há código duplicado
+- [ ] Tratamento de exceções implementado nas operações de banco
+- [ ] Conexões com o banco são fechadas corretamente (try-with-resources)
+- [ ] Nenhuma senha ou credencial exposta no código-fonte
+
+### Banco de Dados
+- [ ] Todas as tabelas possuem chave primária
+- [ ] Chaves estrangeiras estão corretamente referenciadas
+- [ ] Constraints de NOT NULL aplicadas onde necessário
+- [ ] Script SQL testado e funcional
+
+### Interface (JavaFX)
+- [ ] Todos os campos obrigatórios possuem validação
+- [ ] Mensagens de erro são claras para o usuário
+- [ ] Navegação entre telas funciona corretamente
+- [ ] Tela de configurações reflete os valores salvos no banco
+
+### Geral
+- [ ] Sistema roda sem erros no ambiente de desenvolvimento
+- [ ] README está completo e atualizado
+- [ ] Todos os integrantes conseguem rodar o projeto localmente
+
+---
+
+## 🚀 Como Rodar o Sistema
+
+### Pré-requisitos
+
+- Java JDK 17 ou superior
+- Maven 3.8+
+- PostgreSQL [PREENCHER — versão utilizada]
+- IntelliJ IDEA (recomendado)
+
+### Passo a Passo
+
+**1. Clone o repositório**
+```bash
+git clone [PREENCHER — URL do repositório]
+cd Cognito
+```
+
+**2. Configure o banco de dados**
+
+- Crie um banco chamado `mydb` no PostgreSQL
+- Execute o script SQL disponível na seção abaixo
+- Verifique as credenciais em `src/main/java/database/conn/databaseConn.java`:
+
+```java
+private static final String url      = "jdbc:postgresql://localhost/mydb";
+private static final String user     = "Cognito";
+private static final String password = "Veritas";
+```
+
+> Altere as credenciais se necessário para o seu ambiente.
+
+**3. Instale as dependências**
+```bash
+mvn clean install
+```
+
+**4. Execute o projeto**
+```bash
+mvn javafx:run
+```
+
+---
+
+## 🗃️ Script SQL
+
+```sql
+CREATE TABLE usuario (
+    PK_id_usuario           SERIAL PRIMARY KEY,
+    usuario_nome            VARCHAR(100) NOT NULL,
+    usuario_email           VARCHAR(100) NOT NULL UNIQUE,
+    usuario_senha           VARCHAR(255) NOT NULL,
+    usuario_data_nascimento TIMESTAMP
+);
+
+CREATE TABLE configuracao (
+    PK_id_configuracao               SERIAL PRIMARY KEY,
+    configuracao_alto_contraste      BOOLEAN DEFAULT FALSE,
+    configuracao_texto_ampliado      BOOLEAN DEFAULT FALSE,
+    configuracao_sensibilidade_toque FLOAT   DEFAULT 1.0,
+    configuracao_modo_voz            BOOLEAN DEFAULT FALSE,
+    FK_id_usuario                    INT REFERENCES usuario(PK_id_usuario)
+);
+
+CREATE TABLE teste_nivelamento (
+    PK_id_teste_nivelamento           SERIAL PRIMARY KEY,
+    teste_nivelamento_nivel_detectado VARCHAR(50),
+    teste_nivelamento_data_realizacao TIMESTAMP,
+    FK_id_usuario                     INT REFERENCES usuario(PK_id_usuario)
+);
+
+CREATE TABLE aula (
+    PK_id_aula     SERIAL PRIMARY KEY,
+    aula_titulo    VARCHAR(150) NOT NULL,
+    aula_descricao TEXT,
+    aula_nivel     VARCHAR(50)
+);
+
+CREATE TABLE atividade (
+    PK_id_atividade   SERIAL PRIMARY KEY,
+    atividade_pergunta TEXT NOT NULL,
+    atividade_resposta TEXT NOT NULL,
+    atividade_tipo     VARCHAR(50),
+    FK_id_aula         INT REFERENCES aula(PK_id_aula)
+);
+```
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+| Tecnologia | Versão |
+|------------|--------|
+| Java | 17+ |
+| JavaFX | 21 |
+| PostgreSQL
+| Maven | 3.8+ |
+| JDBC Driver PostgreSQL | 42.7.4 |
+
+---
+
+*[PREENCHER — Instituição de Ensino / Disciplina / Semestre]*
