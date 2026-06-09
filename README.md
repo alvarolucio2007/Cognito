@@ -259,4 +259,4 @@ CREATE TABLE atividade (
 > — **René Descartes (adaptado)**
 ---
 
-[UNIFSA - Engenharia de Software 3° Periodo]
+# UNIFSA - Engenharia de Software 3° Periodo
