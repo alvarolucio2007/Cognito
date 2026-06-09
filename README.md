@@ -4,12 +4,12 @@
 
 | Nome | Função |
 |------|--------|
-| Carlos Gabriel Monteiro de Sousa
-| Alvaro Lúcio Coelho Mosinho
-| Leticia de Oliveira Soares Leandro
-| João Eduardo de Soares Pessoa
-| Pedro Henrique Silva Rufino
-| Artur França de Paula Araújo
+| Carlos Gabriel Monteiro de Sousa | TecLead |
+| Alvaro Lúcio Coelho Mosinho | DEV back-end |
+| Leticia de Oliveira Soares Leandro | Analista de Requisitos
+| João Eduardo de Soares Pessoa | DEV front-end |
+| Pedro Henrique Silva Rufino | DBA |
+| Artur França de Paula Araújo | DBA |
 
 ---
 
@@ -150,7 +150,7 @@ graph TD
 
 - Java JDK 17 ou superior
 - Maven 3.8+
-- PostgreSQL [PREENCHER — versão utilizada]
+- PostgreSQL 9.14
 - IntelliJ IDEA (recomendado)
 
 ### Passo a Passo
@@ -238,7 +238,7 @@ CREATE TABLE atividade (
 |------------|--------|
 | Java | 17+ |
 | JavaFX | 21 |
-| PostgreSQL
+| PostgreSQL | 9.14 |
 | Maven | 3.8+ |
 | JDBC Driver PostgreSQL | 42.7.4 |
 
