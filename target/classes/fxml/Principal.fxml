@@ -149,11 +149,6 @@
                 <Pane prefWidth="440.0" prefHeight="850.0" style="-fx-background-color: white;">
                     <children>
                         
-                        <!-- Dropdown de Módulos (ComboBox) -->
-                        <ComboBox fx:id="comboModulos" onAction="#selecionarModuloAction" layoutX="24.0" layoutY="24.0" prefWidth="392.0" prefHeight="46.0"
-                                  promptText="Selecionar Módulo que Deseja Exercitar"
-                                  style="-fx-background-color: rgba(53, 73, 205, 0.15); -fx-background-radius: 20; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand;"/>
-
                         <!-- Estrela de Progresso -->
                         <Button fx:id="btnEstrelaAvaliacao" onAction="#abrirEstrelaAvaliacao" layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0"
                                 style="-fx-background-color: transparent; -fx-cursor: hand;">
