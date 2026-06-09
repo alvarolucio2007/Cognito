@@ -172,7 +172,7 @@ cd Cognito
   ```
 
 ```java
-private static final String url      = "jdbc:postgresql://localhost/mydb";
+private static final String url      = "jdbc:postgresql://localhost:5432/cognitodb";
 private static final String user     = "Cognito";
 private static final String password = "Veritas";
 ```
