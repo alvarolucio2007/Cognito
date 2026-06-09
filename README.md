@@ -166,6 +166,10 @@ cd Cognito
 - Crie um banco chamado `mydb` no PostgreSQL
 - Execute o script SQL disponível na seção abaixo
 - Verifique as credenciais em `src/main/java/database/conn/databaseConn.java`:
+- (Opcional) Comando docker para a inicialização da DB:
+   ``` bash
+  docker run -d --name cognitodb_container -p 5432:5432 -e POSTGRES_DB=cognitodb -e POSTGRES_USER=cognito_user -e POSTGRES_PASSWORD=Cognito123 postgres:18-alpine
+  ```
 
 ```java
 private static final String url      = "jdbc:postgresql://localhost/mydb";
