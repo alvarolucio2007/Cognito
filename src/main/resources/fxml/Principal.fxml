@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="database.controller.PrincipalController"
+      style="-fx-background-color: #001EE4; -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0" spacing="0">
+
+    <!-- Cabeçalho Azul Superior -->
+    <VBox spacing="15.0" style="-fx-background-color: #001EE4;">
+        <padding>
+            <Insets top="50.0" right="24.0" bottom="15.0" left="24.0"/>
+        </padding>
+
+        <!-- Barra do Topo -->
+        <HBox alignment="CENTER" spacing="0">
+            <!-- Botão de Perfil com Fundo em Círculo Branco -->
+            <Button fx:id="botaoPerfil" onAction="#irParaPerfil" prefWidth="44.0" prefHeight="44.0"
+                    style="-fx-background-color: #FFFFFF; -fx-background-radius: 22; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitWidth="30.0" fitHeight="30.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/images/perfil_principal_icon.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Logo Cognito em Imagem Real -->
+            <ImageView fitWidth="120.0" fitHeight="30.0" preserveRatio="true">
+                <image>
+                    <Image url="@/images/logo_principal.png"/>
+                </image>
+            </ImageView>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Botão de Configurações com Imagem Real -->
+            <Button onAction="#irParaConfiguracoes" prefWidth="44.0" prefHeight="44.0"
+                    style="-fx-background-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitWidth="34.0" fitHeight="34.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/images/config_icon.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Campo de Pesquisa (Vinculado ao campoPesquisa) -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0" 
+              style="-fx-background-color: white; -fx-background-radius: 19; -fx-padding: 8 15 8 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 4);">
+            <TextField fx:id="campoPesquisa" promptText="Pesquisar Módulos" HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: transparent; -fx-prompt-text-fill: #888888; -fx-text-fill: #333333; -fx-font-size: 15px; -fx-padding: 0;"/>
+            <ImageView fitWidth="28.0" fitHeight="28.0" preserveRatio="true">
+                <image>
+                    <Image url="@/images/search_icon.png"/>
+                </image>
+            </ImageView>
+        </HBox>
+    </VBox>
+
+    <!-- Corpo Principal com Fundo Branco -->
+    <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 46 46 0 0;">
+        
+        <!-- ABA 1: scrollVideoAulas -->
+        <ScrollPane fx:id="scrollVideoAulas" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
+            <content>
+                <VBox spacing="30.0" style="-fx-background-color: white; -fx-padding: 20 24 120 24;">
+                    
+                    <!-- Card 1 (Introdução ao uso de IA e suas aplicações) -->
+                    <VBox fx:id="cardAula1" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula1" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson01.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label text="Introdução ao uso de IA e suas aplicações" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label fx:id="labelAulas1" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="labelAvaliacoes1" text="Avaliações feitas: 0/1" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Card 2 (Atuação prática real com o uso de IA) -->
+                    <VBox fx:id="cardAula2" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula2" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson02.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label text="Atuação prática real com o uso de IA" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label fx:id="labelAulas2" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="labelAvaliacoes2" text="Avaliações feitas: 0/1" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Card 3 (Uso de IA e tecnologia vestível) -->
+                    <VBox fx:id="cardAula3" onMouseClicked="#abrirAula" spacing="10.0" style="-fx-cursor: hand;">
+                        <StackPane prefHeight="190.0" style="-fx-background-radius: 29;">
+                            <children>
+                                <ImageView fx:id="imgAula3" fitWidth="392.0" fitHeight="190.0" preserveRatio="false">
+                                    <image>
+                                        <Image url="@/images/image-CardLesson03.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label text="Uso de IA e tecnologia vestível" 
+                               style="-fx-text-fill: #000000; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Quicksand';" wrapText="true"/>
+                        <HBox>
+                            <Label fx:id="labelAulas3" text="Atividades feitas: 0/5" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="labelAvaliacoes3" text="Avaliações feitas: 0/2" style="-fx-text-fill: #333333; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <!-- ABA 2: scrollAtividades (A Trilha Gamificada) -->
+        <ScrollPane fx:id="scrollAtividades" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    visible="false" managed="false"
+                    style="-fx-background: white; -fx-background-color: transparent; -fx-background-radius: 46 46 0 0; -fx-padding: 10 0 0 0;">
+            <content>
+                <Pane prefWidth="440.0" prefHeight="850.0" style="-fx-background-color: white;">
+                    <children>
+                        
+                        <!-- Estrela de Progresso -->
+                        <Button fx:id="btnEstrelaAvaliacao" onAction="#abrirEstrelaAvaliacao" layoutX="145.0" layoutY="135.0" prefWidth="150.0" prefHeight="90.0"
+                                style="-fx-background-color: transparent; -fx-cursor: hand;">
+                            <graphic>
+                                <ImageView fitWidth="150.0" fitHeight="90.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/star_icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Livro 5 -->
+                        <Button fx:id="btnLivro5" onAction="#abrirLivro5" layoutX="220.0" layoutY="244.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Livro 4 -->
+                        <Button fx:id="btnLivro4" onAction="#abrirLivro4" layoutX="141.0" layoutY="319.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Livro 3 -->
+                        <Button fx:id="btnLivro3" onAction="#abrirLivro3" layoutX="76.0" layoutY="403.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Livro 2 -->
+                        <Button fx:id="btnLivro2" onAction="#abrirLivro2" layoutX="105.0" layoutY="501.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Livro 1 (Inicia a atividade 1) -->
+                        <Button fx:id="btnLivro1" onAction="#abrirLivro1" layoutX="164.0" layoutY="585.0" prefWidth="91.0" prefHeight="55.0"
+                                style="-fx-background-color: #5762ff; -fx-background-radius: 45; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000886, 10, 0, 0, 4);">
+                            <graphic>
+                                <ImageView fitWidth="47.0" fitHeight="34.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/Book_Icon.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <!-- Label de Aviso de Bloqueio da Trilha -->
+                        <Label fx:id="labelAvisoTrilha" layoutX="24.0" layoutY="660.0" prefWidth="392.0" alignment="CENTER"
+                               style="-fx-text-fill: #DC2626; -fx-font-size: 15px; -fx-font-weight: bold;" textAlignment="CENTER" wrapText="true"/>
+
+                    </children>
+                </Pane>
+            </content>
+        </ScrollPane>
+
+        <!-- Menu Flutuante de Seleção (Alternador de Abas) -->
+        <VBox alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false">
+            <padding>
+                <Insets bottom="30.0"/>
+            </padding>
+            <HBox alignment="CENTER" maxWidth="347.0" prefHeight="50.0"
+                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-padding: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                <children>
+                    <Button fx:id="abaVideoBtn" text="Vídeo Aulas" onAction="#mostrarAbaVideo" prefWidth="165.0" prefHeight="42.0"
+                            style="-fx-background-color: #a0a6ff; -fx-text-fill: #000dc9; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;"/>
+                    
+                    <Region prefWidth="1" prefHeight="32" style="-fx-background-color: #b1b1b1;" />
+                    
+                    <Button fx:id="abaAtividadesBtn" text="Atividades" onAction="#mostrarAbaAtividades" prefWidth="165.0" prefHeight="42.0"
+                            style="-fx-background-color: transparent; -fx-text-fill: #1E293B; -fx-font-size: 16px; -fx-cursor: hand;"/>
+                </children>
+            </HBox>
+        </VBox>
+    </StackPane>
+</VBox>

@@ -1,22 +1,21 @@
 package database.controller;
 
 import database.databaseModels.Usuario;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button; // alterei essa linha pq tava dando problema na UI, antes era: import java.awt.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import database.conn.databaseConn;
+import org.apache.commons.validator.EmailValidator;
 
 public class UsuarioController {
 
@@ -41,53 +40,38 @@ public class UsuarioController {
     LocalDate data = dataField.getValue();
 
     if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || data == null) {
-      labelAviso.setText("Preencha todos os campos obrigatorios!");
+      labelAviso.setText("Preencha todos os campos obrigatórios!");
+      return;
+    }
+    if (!EmailValidator.getInstance().isValid(email)) {
+      labelAviso.setText("Preencha o campo de e-mail com um e-mail válido!");
       return;
     }
 
     Timestamp dataConvertida = Timestamp.valueOf(data.atStartOfDay());
 
+    // Eu mantive a implementação de modelo e chamada do banco do Carlos pra criar o
+    // usuário
     Usuario novoUsuario = new Usuario(null, nome, email, senha, dataConvertida);
     boolean sucesso = novoUsuario.criar(novoUsuario);
 
     if (sucesso) {
       labelAviso.setText("Usuário cadastrado com sucesso!");
-      // Busca o ID gerado e redireciona pro teste de nivelamento
-      Long idGerado = buscarIdPorEmail(email);
-      if (idGerado != null) {
-        irParaTeste(idGerado);
-      }
+      // Eu adicionei essa chamada pra que logo após o cadastro, o fluxo redirecione o
+      // usuário diretamente para as perguntas de nivelamento.
+      irParaTesteNivelamento(email);
     } else {
-      labelAviso.setText("Erro! Não foi possivel realizar o cadastro");
+      labelAviso.setText("Erro! Não foi possível realizar o cadastro.");
     }
   }
 
-  // ── Busca o ID do usuário recém-criado ───────────────────────────
-  private Long buscarIdPorEmail(String email) {
-    String query = "SELECT PK_id_usaurio FROM usuario WHERE usuario_email = ?";
-    try (Connection conn = databaseConn.connect();
-        PreparedStatement stmt = conn.prepareStatement(query)) {
-      stmt.setString(1, email);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        return rs.getLong("PK_id_usaurio");
-      }
-    } catch (Exception e) {
-      System.out.println("Erro ao buscar id do usuário: " + e.getMessage());
-    }
-    return null;
-  }
-
-  // ── Navega pro teste passando o ID do usuário ────────────────────
-  private void irParaTeste(Long idUsuario) {
+  private void irParaTesteNivelamento(String email) {
     try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/fxml/TesteNivelamento.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TesteNivelamento.fxml"));
       Parent root = loader.load();
 
-      // Injeta o ID no controller do teste
-      TesteNivelamentoController testeController = loader.getController();
-      testeController.setIdUsuario(idUsuario);
+      TesteNivelamentoController controller = loader.getController();
+      controller.setUsuarioEmail(email);
 
       botaoCadastro.getScene().setRoot(root);
     } catch (Exception e) {
@@ -96,9 +80,16 @@ public class UsuarioController {
   }
 
   @FXML
-  private void irParaLogin() throws Exception {
-    Parent root = FXMLLoader.load(
-        getClass().getResource("/fxml/Login.fxml"));
-    botaoCadastro.getScene().setRoot(root);
+  private void irParaLogin(ActionEvent event) {
+    try {
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+      // Eu alterei esse método para usar ActionEvent. Desse jeito, eu busco a origem
+      // do clique (o próprio link clicado) e mudo o root da Scene de forma dinâmica.
+      // Isso previne quebra se por acaso o botão do cadastro estiver nulo ou não
+      // inicializado.
+      ((Node) event.getSource()).getScene().setRoot(root);
+    } catch (Exception e) {
+      System.out.println("Erro ao voltar para o login: " + e.getMessage());
+    }
   }
 }

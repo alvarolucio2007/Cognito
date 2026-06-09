@@ -4,34 +4,29 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="database.controller.UsuarioController"
       alignment="TOP_CENTER"
       spacing="8"
       style="-fx-background-color: linear-gradient(to bottom, #E8EAF6, #C5CAE9);
-             -fx-background-radius: 20;">
+             -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0">
 
     <padding>
         <Insets top="36" right="32" bottom="36" left="32"/>
     </padding>
 
-    <!-- Logo -->
+    <!-- logo Oficial do Sistema (Readicionado aqui) -->
     <StackPane>
         <padding><Insets bottom="8"/></padding>
-        <Circle radius="52"
-                fill="#1A237E"
-                stroke="#3F51B5"
-                strokeWidth="3"/>
-        <VBox alignment="CENTER" spacing="0">
-            <Label text="📖" style="-fx-font-size: 28px;"/>
-            <Label text="Cognito"
-                   style="-fx-font-family: Georgia;
-                          -fx-font-weight: bold;
-                          -fx-font-size: 11px;
-                          -fx-text-fill: white;"/>
-        </VBox>
+        <ImageView fitWidth="160.0" fitHeight="160.0" preserveRatio="true">
+            <image>
+                <Image url="@/images/logo_sistema.png"/>
+            </image>
+        </ImageView>
     </StackPane>
 
     <!-- Título -->
@@ -118,7 +113,7 @@
 
     <Region minHeight="16"/>
 
-    <!-- Label aviso -->
+    <!-- label aviso -->
     <Label fx:id="labelAviso"
            text=""
            wrapText="true"
@@ -141,11 +136,12 @@
 
     <Region minHeight="16"/>
 
-    <!-- Link voltar ao login -->
+    <!-- link pra voltar login -->
     <VBox alignment="CENTER" spacing="2">
         <Label text="Já possui uma conta?"
                style="-fx-font-size: 13px; -fx-text-fill: #444444;"/>
         <Hyperlink text="Faça login aqui"
+                   onAction="#irParaLogin"
                    style="-fx-font-size: 13px;
                           -fx-text-fill: #3F51B5;
                           -fx-border-color: transparent;

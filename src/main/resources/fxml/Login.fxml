@@ -3,110 +3,66 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="database.controller.LoginController"
       alignment="TOP_CENTER"
-      spacing="8"
-      style="-fx-background-color: linear-gradient(to bottom, #E8EAF6, #C5CAE9);
-             -fx-background-radius: 20;">
+      spacing="15"
+      style="-fx-background-color: white; -fx-background-radius: 20;"
+      prefWidth="440.0" prefHeight="950.0">
 
     <padding>
-        <Insets top="36" right="32" bottom="36" left="32"/>
+        <Insets top="80" right="32" bottom="40" left="32"/>
     </padding>
 
-    <!-- Logo -->
+    <!-- Logotipo Oficial do Sistema do Figma -->
     <StackPane>
-        <padding><Insets bottom="8"/></padding>
-        <Circle radius="52"
-                fill="#1A237E"
-                stroke="#3F51B5"
-                strokeWidth="3"/>
-        <VBox alignment="CENTER" spacing="0">
-            <Label text="📖" style="-fx-font-size: 28px;"/>
-            <Label text="Cognito"
-                   style="-fx-font-family: Georgia;
-                          -fx-font-weight: bold;
-                          -fx-font-size: 11px;
-                          -fx-text-fill: white;"/>
-        </VBox>
+        <padding><Insets bottom="10"/></padding>
+        <ImageView fitWidth="160.0" fitHeight="160.0" preserveRatio="true">
+            <image>
+                <Image url="@/images/logo_sistema.png"/>
+            </image>
+        </ImageView>
     </StackPane>
 
     <!-- Título -->
     <Label text="Login"
-           style="-fx-font-family: Georgia;
+           style="-fx-font-family: Poppins;
                   -fx-font-weight: bold;
                   -fx-font-size: 26px;
-                  -fx-text-fill: #3F51B5;">
-        <padding><Insets top="4" bottom="12"/></padding>
+                  -fx-text-fill: #0011ff;">
+        <padding><Insets bottom="15"/></padding>
     </Label>
 
-    <!-- E-Mail -->
-    <Label text="E-Mail"
-           style="-fx-font-weight: bold;
-                  -fx-font-size: 13px;
-                  -fx-text-fill: #444444;">
-        <VBox.margin><Insets top="6" left="2"/></VBox.margin>
-    </Label>
-    <TextField fx:id="emailField"
-               promptText="seu@email.com"
-               maxWidth="1.7976931348623157E308"
-               style="-fx-background-color: #F0F0F0;
-                      -fx-background-radius: 10;
-                      -fx-border-color: transparent;
-                      -fx-font-size: 14px;
-                      -fx-padding: 10 14 10 14;
-                      -fx-pref-height: 44px;"/>
-
-    <Region minHeight="8"/>
-
-    <!-- Senha -->
-    <Label text="Senha"
-           style="-fx-font-weight: bold;
-                  -fx-font-size: 13px;
-                  -fx-text-fill: #444444;">
-        <VBox.margin><Insets top="6" left="2"/></VBox.margin>
-    </Label>
-    <PasswordField fx:id="senhaField"
-                   promptText="••••••••"
-                   maxWidth="1.7976931348623157E308"
-                   style="-fx-background-color: #F0F0F0;
-                          -fx-background-radius: 10;
-                          -fx-border-color: transparent;
-                          -fx-font-size: 14px;
-                          -fx-padding: 10 14 10 14;
-                          -fx-pref-height: 48px;"/>
-
-    <Region minHeight="24"/>
-
-    <!-- Botão Login -->
-    <Button fx:id="botaoLogin"
-            text="Login"
-            maxWidth="1.7976931348623157E308"
-            onAction="#login"
-            style="-fx-background-color: #283593;
-                   -fx-text-fill: white;
-                   -fx-font-size: 15px;
-                   -fx-font-weight: bold;
-                   -fx-background-radius: 12;
-                   -fx-cursor: hand;
-                   -fx-pref-height: 48px;
-                   -fx-effect: dropshadow(gaussian, rgba(26,35,126,0.4), 8, 0, 0, 0);"/>
-
-    <Region minHeight="16"/>
-
-    <!-- Link cadastro -->
-    <VBox alignment="CENTER" spacing="2">
-        <Label text="Não possui uma conta?"
-               style="-fx-font-size: 13px; -fx-text-fill: #444444;"/>
-        <Hyperlink text="Clique aqui e crie uma"
-                   onAction="#irParaCadastro"
-                   style="-fx-font-size: 13px;
-                          -fx-text-fill: #3F51B5;
-                          -fx-border-color: transparent;
-                          -fx-padding: 0;"/>
+    <!-- Campo: E-Mail -->
+    <VBox spacing="6" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+        <Label text="E-Mail" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: black;"/>
+        <TextField fx:id="emailField" promptText="seu@email.com"
+                   style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 15px; -fx-padding: 10 14 10 14; -fx-pref-height: 44px;"/>
     </VBox>
 
+    <!-- Campo: Senha -->
+    <VBox spacing="6" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+        <Label text="Senha" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: black;"/>
+        <PasswordField fx:id="senhaField" promptText="••••••••"
+                       style="-fx-background-color: #F0F0F0; -fx-background-radius: 10; -fx-font-size: 15px; -fx-padding: 10 14 10 14; -fx-pref-height: 44px;"/>
+    </VBox>
+
+    <Region minHeight="20"/>
+
+    <!-- Botão de Login -->
+    <Button fx:id="botaoLogin" text="Login" onAction="#login"
+            maxWidth="1.7976931348623157E308"
+            style="-fx-background-color: #00108d; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-pref-height: 54px;"/>
+
+    <Region minHeight="20"/>
+
+    <!-- Link de Cadastro -->
+    <VBox alignment="CENTER" spacing="4">
+        <Label text="Não possui uma conta?" style="-fx-font-size: 13px; -fx-text-fill: black;"/>
+        <Hyperlink text="Clique aqui e crie uma" onAction="#irParaCadastro"
+                   style="-fx-font-size: 14px; -fx-text-fill: #0011ff; -fx-font-weight: bold; -fx-border-color: transparent; -fx-padding: 0;"/>
+    </VBox>
 </VBox>
