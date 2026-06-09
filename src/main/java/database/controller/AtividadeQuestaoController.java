@@ -192,12 +192,19 @@ public class AtividadeQuestaoController {
     try {
       int idAula = obterIdModuloPorNome(moduloAtivo);
 
-      // 1. IMPORTANTE: Atualize o método 'checarProgressoExiste' se ele ainda usar o
-      // email!
-      if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, "ATIVIDADE_CONCLUIDA")) {
+      // Determina se é a estrela de avaliação final ou uma lição comum
+      boolean ehAvaliacaoFinal = (idAtividadeAtiva == 6);
+      String tipoConclusao = ehAvaliacaoFinal ? "AVALIACAO_CONCLUIDA" : "ATIVIDADE_CONCLUIDA";
+
+      if (!checarProgressoExiste(usuarioEmail, idAula, idAtividadeAtiva, tipoConclusao)) {
 
         String queryBuscaId = "SELECT PK_id_usuario FROM usuario WHERE usuario_email = ?";
-        String queryInsert = "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, 'ATIVIDADE_CONCLUIDA')";
+
+        // Se for a avaliação final, passamos NULL no id_atividade para não quebrar a
+        // Foreign Key
+        String queryInsert = ehAvaliacaoFinal
+            ? "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, NULL, ?)"
+            : "INSERT INTO usuario_progresso (id_usuario, id_aula, id_atividade, tipo_conclusao) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = databaseConn.connect()) {
           int idUsuario = -1;
@@ -212,14 +219,24 @@ public class AtividadeQuestaoController {
             }
           }
 
-          // Passo 2: Se achou o usuário, faz o INSERT usando o idUsuario
+          // Passo 2: Se achou o usuário, faz o INSERT
           if (idUsuario != -1) {
             try (PreparedStatement stmtInsert = conn.prepareStatement(queryInsert)) {
               stmtInsert.setInt(1, idUsuario);
               stmtInsert.setInt(2, idAula);
-              stmtInsert.setInt(3, idAtividadeAtiva);
+
+              if (ehAvaliacaoFinal) {
+                // Se for avaliação, a query acima já tem o NULL fixo, então passamos o
+                // tipoConclusao no parâmetro 3
+                stmtInsert.setString(3, tipoConclusao);
+              } else {
+                // Se for lição normal, passamos o ID da atividade no 3 e o tipo no 4
+                stmtInsert.setInt(3, idAtividadeAtiva);
+                stmtInsert.setString(4, tipoConclusao);
+              }
+
               stmtInsert.executeUpdate();
-              System.out.println("Progresso de atividade salvo com sucesso para o usuário ID: " + idUsuario);
+              System.out.println("Progresso (" + tipoConclusao + ") salvo com sucesso para o usuário ID: " + idUsuario);
             }
           } else {
             System.out.println("Aviso: Usuário com o e-mail " + usuarioEmail + " não foi encontrado no banco.");

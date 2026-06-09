@@ -35,8 +35,6 @@ public class PrincipalController {
   @FXML
   private Button abaAtividadesBtn;
   @FXML
-  private ComboBox<String> comboModulos;
-  @FXML
   private Label labelAvisoTrilha;
 
   // Botões dos Livros e Estrela para controle de liberação
@@ -84,26 +82,6 @@ public class PrincipalController {
     atualizarVisualTrilha();
   }
 
-  @FXML
-  public void initialize() {
-    // Inicializa o ComboBox de Atividades com os nomes exatos das nossas trilhas
-    if (comboModulos != null) {
-      comboModulos.getItems().addAll(
-          "Introdução ao uso de IA e suas aplicações",
-          "Atuação prática real com o uso de IA",
-          "Uso de IA e tecnologia vestível");
-      comboModulos.getSelectionModel().select("Introdução ao uso de IA e suas aplicações");
-    }
-
-    // Eu configurei a barra de pesquisa para filtrar os cards dinamicamente em
-    // tempo real
-    if (campoPesquisa != null) {
-      campoPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
-        filtrarCardsAulas(newValue);
-      });
-    }
-  }
-
   private void filtrarCardsAulas(String busca) {
     if (busca == null || busca.trim().isEmpty()) {
       mostrarCard(cardAula1, true);
@@ -127,7 +105,7 @@ public class PrincipalController {
 
   @FXML
   public void selecionarModuloAction() {
-    String selecionado = comboModulos.getSelectionModel().getSelectedItem();
+    String selecionado = "Introdução ao uso de IA e suas aplicações";
     if (selecionado != null) {
       this.moduloSelecionado = selecionado;
       System.out.println("Módulo de estudo alterado para: " + moduloSelecionado);

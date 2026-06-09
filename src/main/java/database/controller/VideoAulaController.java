@@ -444,12 +444,24 @@ public class VideoAulaController {
   }
 
   private boolean checarProgressoAtividadeExiste(String email, int idAula, int idAtividade) throws SQLException {
-    String query = "SELECT COUNT(*) FROM usuario_progresso WHERE usuario_email = ? AND id_aula = ? AND id_atividade = ? AND tipo_conclusao = 'ATIVIDADE_CONCLUIDA'";
+    // Ajustado para fazer JOIN com a tabela usuario e buscar o e-mail no lugar
+    // certo
+    String query = """
+            SELECT COUNT(*)
+            FROM usuario_progresso up
+            JOIN usuario u ON up.id_usuario = u.PK_id_usuario
+            WHERE u.usuario_email = ?
+              AND up.id_aula = ?
+              AND up.id_atividade = ?
+              AND up.tipo_conclusao = 'ATIVIDADE_CONCLUIDA'
+        """;
+
     try (Connection conn = databaseConn.connect();
         PreparedStatement stmt = conn.prepareStatement(query)) {
       stmt.setString(1, email);
       stmt.setInt(2, idAula);
       stmt.setInt(3, idAtividade);
+
       try (ResultSet rs = stmt.executeQuery()) {
         return rs.next() && rs.getInt(1) > 0;
       }
