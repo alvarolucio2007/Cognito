@@ -6,7 +6,7 @@
 |------|--------|
 | Carlos Gabriel Monteiro de Sousa | Tech Lead |
 | Alvaro Lúcio Mousinho Coelho | DEV back-end |
-| Leticia de Oliveira Soares Leandro | Analista de Requisitos | 
+| Leticia de Oliveira Soares Leandro | Analista de Requisitos |
 | João Eduardo de Soares Pessoa | DEV front-end |
 | Pedro Henrique Silva Rufino | DBA |
 | Artur França de Paula Araújo | DBA |
@@ -118,6 +118,7 @@ graph TD
 ## ✅ Checklist de Inspeção de Qualidade
 
 ### Código
+
 - [ ] Nomenclatura de classes, métodos e variáveis está padronizada
 - [ ] Todos os métodos possuem responsabilidade única
 - [ ] Não há código duplicado
@@ -126,18 +127,21 @@ graph TD
 - [ ] Nenhuma senha ou credencial exposta no código-fonte
 
 ### Banco de Dados
+
 - [ ] Todas as tabelas possuem chave primária
 - [ ] Chaves estrangeiras estão corretamente referenciadas
 - [ ] Constraints de NOT NULL aplicadas onde necessário
 - [ ] Script SQL testado e funcional
 
 ### Interface (JavaFX)
+
 - [ ] Todos os campos obrigatórios possuem validação
 - [ ] Mensagens de erro são claras para o usuário
 - [ ] Navegação entre telas funciona corretamente
 - [ ] Tela de configurações reflete os valores salvos no banco
 
 ### Geral
+
 - [ ] Sistema roda sem erros no ambiente de desenvolvimento
 - [ ] README está completo e atualizado
 - [ ] Todos os integrantes conseguem rodar o projeto localmente
@@ -148,14 +152,15 @@ graph TD
 
 ### Pré-requisitos
 
-- Java JDK 17 ou superior
+- Java JDK 15 ou superior
 - Maven 3.8+
-- PostgreSQL 9.14
+- Docker
 - IntelliJ IDEA (recomendado)
 
 ### Passo a Passo
 
 **1. Clone o repositório**
+
 ```bash
 gh repo clone alvarolucio2007/Cognito
 cd Cognito
@@ -167,6 +172,7 @@ cd Cognito
 - Execute o script SQL disponível na seção abaixo
 - Verifique as credenciais em `src/main/java/database/conn/databaseConn.java`:
 - (Opcional) Comando docker para a inicialização da DB:
+
    ``` bash
   docker run -d --name cognitodb_container -p 5432:5432 -e POSTGRES_DB=cognitodb -e POSTGRES_USER=cognito_user -e POSTGRES_PASSWORD=Cognito123 postgres:18-alpine
   ```
@@ -180,11 +186,13 @@ private static final String password = "Veritas";
 > Altere as credenciais se necessário para o seu ambiente.
 
 **3. Instale as dependências**
+
 ```bash
 mvn clean install
 ```
 
 **4. Execute o projeto**
+
 ```bash
 mvn javafx:run
 ```
@@ -249,5 +257,6 @@ CREATE TABLE atividade (
 ---
 > *"Cognito, ergo sum."*
 > — **René Descartes (adaptado)**
+---
 
-UNIFSA - Engenharia de Software 3° Periodo
+[UNIFSA - Engenharia de Software 3° Periodo]
