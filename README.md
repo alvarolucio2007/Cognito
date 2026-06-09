@@ -4,9 +4,9 @@
 
 | Nome | Função |
 |------|--------|
-| Carlos Gabriel Monteiro de Sousa | TecLead |
+| Carlos Gabriel Monteiro de Sousa | Tech Lead |
 | Alvaro Lúcio Coelho Mosinho | DEV back-end |
-| Leticia de Oliveira Soares Leandro | Analista de Requisitos
+| Leticia de Oliveira Soares Leandro | Analista de Requisitos | 
 | João Eduardo de Soares Pessoa | DEV front-end |
 | Pedro Henrique Silva Rufino | DBA |
 | Artur França de Paula Araújo | DBA |
