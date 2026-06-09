@@ -15,14 +15,14 @@
 
 ## 📖 Apresentação do Sistema
 
-O **Cognito** é uma aplicação desktop desenvolvida em **Java com JavaFX**, voltada para [PREENCHER — ex: aprendizado de idiomas / ensino adaptativo / etc].
+O **Cognito** é uma aplicação desktop desenvolvida em **Java com JavaFX**, voltada para Auxiliar no aprendizado de idosos nos dispositivos moveis.
 
 O sistema permite que usuários:
 
-- [PREENCHER — ex: realizem testes de nivelamento]
-- [PREENCHER — ex: acessem aulas organizadas por nível]
-- [PREENCHER — ex: respondam atividades interativas]
-- Personalizem sua experiência através de configurações de acessibilidade
+- Assita videos aulas explicativas ensinando desde o basico ao avançado.
+- Acesse aula e exercicios baseados no seu nivel de conhecimento.
+- Tenha uma experiencia personalizada de acordo com seu nivel de familiaridade com o mundo digital.
+- Personalizem sua experiência através de configurações de acessibilidade.
 
 ---
 
@@ -157,7 +157,7 @@ graph TD
 
 **1. Clone o repositório**
 ```bash
-git clone [PREENCHER — URL do repositório]
+gh repo clone alvarolucio2007/Cognito
 cd Cognito
 ```
 
@@ -244,4 +244,4 @@ CREATE TABLE atividade (
 
 ---
 
-*[PREENCHER — Instituição de Ensino / Disciplina / Semestre]*
+UNIFSA - Engenharia de Software 3° Periodo
