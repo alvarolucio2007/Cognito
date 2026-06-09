@@ -243,5 +243,7 @@ CREATE TABLE atividade (
 | JDBC Driver PostgreSQL | 42.7.4 |
 
 ---
+> *"Cognito, ergo sum."*
+> — **René Descartes (adaptado)**
 
 UNIFSA - Engenharia de Software 3° Periodo
